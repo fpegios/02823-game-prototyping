@@ -10,9 +10,12 @@ public class MapScript : MonoBehaviour {
 	public Vector3 currentPosition;
 	public Vector3 targetPosition;
 	public float playerSpeed;
+	private SceneController sceneController;
 
 	void Start () {
 		Debug.Log("STARTED");
+
+		sceneController = FindObjectOfType<SceneController> ();
 
 		// set current level
 		currentLevel = 1;
@@ -65,6 +68,10 @@ public class MapScript : MonoBehaviour {
 
 					// update target position
 					targetPosition = GameObject.Find("Level_" + currentLevel).transform.position;
+
+					if(clickedLevel == 2){
+						sceneController.FadeAndLoadScene("Scenes/Levels/Level1");
+					}
 				}
 				
 			}

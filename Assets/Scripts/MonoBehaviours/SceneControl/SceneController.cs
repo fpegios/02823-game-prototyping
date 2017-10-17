@@ -54,7 +54,7 @@ public class SceneController : MonoBehaviour
         }
     }*/
 
-	public void FaceAndLoadScene(string sceneName){
+	public void FadeAndLoadScene(string sceneName){
         if (!isFading)
         {
             StartCoroutine (FadeAndSwitchScenes (sceneName));
