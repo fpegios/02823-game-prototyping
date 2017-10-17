@@ -15,14 +15,14 @@ Complete level by avoiding obstacles
 
 ##### Secondary Goal
 Collectables
-⋅⋅⋅Power ups
+  - Power ups
 
 ### Dangers
 - Platform
 - Pitfalls
 - Obstacles
-⋅⋅* fixed
-⋅⋅* moving
+  - Fixed
+  - Moving
 
 ## Game developers
 Fabio Pazzini
