@@ -4,10 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/LoadingScreen.unity
-    guid: c32d1681e638db14b8ce163c3cbda26d
-  - enabled: 1
-    path: Assets/Scenes/SokobanDemo.unity
-    guid: f1ec38a7ed4254e23a5bcc2aaa85ab70
+  m_Scenes: []
