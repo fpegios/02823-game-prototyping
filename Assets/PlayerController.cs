@@ -26,11 +26,22 @@ public class PlayerController : MonoBehaviour
     // Variable which indicates the speed up coefficient
     public float speedUpValue;
 
+    private float coeff = 1;
+    private float stableCoeff;
+
+    private bool isJumping;
+
+    private bool isClimbing;
+
+    public GameObject camera;
+
     // Use this for initialization
     void Start()
     {
         // Getting the Rigidbody2D component
         rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 3;
+        stableCoeff = coeff;
     }
 
     void Update()
@@ -47,7 +58,7 @@ public class PlayerController : MonoBehaviour
                 tempCount = Time.frameCount;
             }
             // If the current frame number is higher than the sum of the one previously saved plus the frame range set publicly
-            else if (Time.frameCount > tempCount + frameRange)
+            if (Time.frameCount > tempCount + frameRange)
             {
                 // Reset the variable which stored the previous frame number 
                 tempCount = 0;
@@ -63,21 +74,66 @@ public class PlayerController : MonoBehaviour
             }
         }
         // If it's not the right time to boost the player, then we make the player move at a constant speed
-        else
+        else if (!isClimbing)
         {
             rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
         }
         // Updating the velocity property of the object
 
-        Debug.Log(rb.velocity.x);
+        //Debug.Log(rb.velocity.x);
 
         // Getting the input - if Space is pressed
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
+            Debug.Log(jumpSpeed + coeff);
             // Then we update the y value of the velocity property to jump
-            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+            //rb.velocity = new Vector2(rb.velocity.x*0.70f, jumpSpeed+coeff);
+            rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
+            this.isJumping = true;
+            
+        }
+        
+        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
+        camera.transform.position = newPos;
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Climb"))
+        {
+            rb.velocity = new Vector2(maxSpeed+3, rb.velocity.y);
+            /*transform.rotation = collision.transform.rotation;
+            Debug.Log(collision.transform.rotation);*/
+            Vector3 eulerAngles = transform.eulerAngles;
+            eulerAngles.z = 45;
+            transform.eulerAngles = eulerAngles;
+            isJumping = true;
+        }
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb")) && isJumping)
+        {
+            isJumping = false;
+        }
+       
+    }
+
+    
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Climb"))
+        {
+            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+            isClimbing = false;
+            isJumping = false; 
+           
         }
     }
+
 
     // Checking the triggers the players enters 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -88,6 +144,14 @@ public class PlayerController : MonoBehaviour
             // It means we have to boost the player's speed
             toCount = true;
             toSave = true;
+            coeff += 1.5f;
+        }
+
+        if (collision.CompareTag("EndClimb"))
+        {
+            Vector3 eulerAngles = transform.eulerAngles;
+            eulerAngles.z = 0;
+            transform.eulerAngles = eulerAngles;
         }
     }
 }
