@@ -10,10 +10,10 @@ The game is a 2D platformer with a student as the main character. The student ne
 ## Design
 
 
-#### Primary Goal
+### Primary Goal
 Complete level by avoiding obstacles
 
-##### Secondary Goal
+#### Secondary Goal
 Collectables
   - Power ups
 
