@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Climb
   - EndClimb
+  - Drop
   layers:
   - Default
   - TransparentFX

@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject camera;
 
+    private bool isDropping;
+
     // Use this for initialization
     void Start()
     {
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 // Otherwise, we accelerate the player's speed by a certain amount per frame
-                rb.velocity = new Vector2(rb.velocity.x + speedUpValue, rb.velocity.y);
+                rb.velocity = new Vector2(maxSpeed+ speedUpValue, rb.velocity.y);
                 // Setting the speed indicated by the maxSpeed variable with the current one
                 maxSpeed = rb.velocity.x;
             }
@@ -109,12 +111,19 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = eulerAngles;
             isJumping = true;
         }
+        if (collision.transform.CompareTag("Drop"))
+        {
+            Vector3 eulerAngles = transform.eulerAngles;
+            eulerAngles.z = -45;
+            transform.eulerAngles = eulerAngles;
+            isDropping = true;
+        }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb")) && isJumping)
+        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb") || collision.transform.CompareTag("Drop") && isJumping))
         {
             isJumping = false;
         }
@@ -130,7 +139,11 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
             isClimbing = false;
             isJumping = false; 
-           
+        } 
+        if (collision.transform.CompareTag("Drop"))
+        {
+            isClimbing = false;
+            isDropping = false;
         }
     }
 
@@ -149,6 +162,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("EndClimb"))
         {
+            Debug.Log("end climb");
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 0;
             transform.eulerAngles = eulerAngles;
