@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     // Variable which will store the frame number at a certain point in time
     private float tempCount;
-    
+
     // Boolean variable which indicates if we have to save the current frame number
     private bool toSave;
 
@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private bool isClimbing;
 
     public GameObject camera;
+
+    private bool isDropping;
 
     // Use this for initialization
     void Start()
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 // Otherwise, we accelerate the player's speed by a certain amount per frame
-                rb.velocity = new Vector2(rb.velocity.x + speedUpValue, rb.velocity.y);
+                rb.velocity = new Vector2(maxSpeed + speedUpValue, rb.velocity.y);
                 // Setting the speed indicated by the maxSpeed variable with the current one
                 maxSpeed = rb.velocity.x;
             }
@@ -90,9 +92,9 @@ public class PlayerController : MonoBehaviour
             //rb.velocity = new Vector2(rb.velocity.x*0.70f, jumpSpeed+coeff);
             rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
             this.isJumping = true;
-            
+
         }
-        
+
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
         camera.transform.position = newPos;
     }
@@ -101,7 +103,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.transform.CompareTag("Climb"))
         {
-            rb.velocity = new Vector2(maxSpeed+3, rb.velocity.y);
+            rb.velocity = new Vector2(maxSpeed + 3, rb.velocity.y);
             /*transform.rotation = collision.transform.rotation;
             Debug.Log(collision.transform.rotation);*/
             Vector3 eulerAngles = transform.eulerAngles;
@@ -109,19 +111,26 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = eulerAngles;
             isJumping = true;
         }
+        if (collision.transform.CompareTag("Drop"))
+        {
+            Vector3 eulerAngles = transform.eulerAngles;
+            eulerAngles.z = -45;
+            transform.eulerAngles = eulerAngles;
+            isDropping = true;
+        }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb")) && isJumping)
+        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb") || collision.transform.CompareTag("Drop") && isJumping))
         {
             isJumping = false;
         }
-       
+
     }
 
-    
+
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -129,8 +138,12 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
             isClimbing = false;
-            isJumping = false; 
-           
+            isJumping = false;
+        }
+        if (collision.transform.CompareTag("Drop"))
+        {
+            isClimbing = false;
+            isDropping = false;
         }
     }
 
@@ -149,6 +162,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("EndClimb"))
         {
+            Debug.Log("end climb");
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 0;
             transform.eulerAngles = eulerAngles;
