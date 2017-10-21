@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Tiled2Unity generated xml data-->
 <!--Do not modify by hand-->
-<!--Last exported: 21/10/2017 14:14:39-->
+<!--Last exported: 21/10/2017 15:20:41-->
 <Tiled2Unity version="1.0.13.0">
   <AssignMaterial mesh="Level1_mesh_0001" material="Grasslands - By VicPlay" />
   <Prefab name="Level1" orientation="Orthogonal" staggerAxis="Y" staggerIndex="Odd" hexSideLength="0" numLayers="1" numTilesWide="400" numTilesHigh="100" tileWidth="32" tileHeight="32" exportScale="1" mapWidthInPixels="12800" mapHeightInPixels="3200" backgroundColor="#808080">
