@@ -93,8 +93,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(rb.velocity.x);
 
         // Getting the input - if Space is pressed
-
-
+        
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
         camera.transform.position = newPos;
 
@@ -146,6 +145,10 @@ public class PlayerController : MonoBehaviour
         {
             isClimbing = false;
             isDropping = false;
+        }
+        if (collision.transform.CompareTag("Ground"))
+        {
+            //isJumping = true;
         }
     }
 
