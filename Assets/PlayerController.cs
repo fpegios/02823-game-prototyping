@@ -48,6 +48,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && !isJumping)
+        {
+            Debug.Log("Pressed!");
+            rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
+            this.isJumping = true;
+
+        }
         // Check if it's time to boost the player
         if (toCount)
         {
@@ -85,18 +93,12 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(rb.velocity.x);
 
         // Getting the input - if Space is pressed
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
-        {
-            Debug.Log(jumpSpeed + coeff);
-            // Then we update the y value of the velocity property to jump
-            //rb.velocity = new Vector2(rb.velocity.x*0.70f, jumpSpeed+coeff);
-            rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
-            this.isJumping = true;
-
-        }
+        
 
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
         camera.transform.position = newPos;
+
+        //print(isJumping);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 45;
             transform.eulerAngles = eulerAngles;
-            isJumping = true;
+            //isJumping = true;
         }
         if (collision.transform.CompareTag("Drop"))
         {
@@ -123,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb") || collision.transform.CompareTag("Drop") && isJumping))
+        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb") || collision.transform.CompareTag("Drop")))
         {
             isJumping = false;
         }
@@ -138,12 +140,16 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
             isClimbing = false;
-            isJumping = false;
+            //isJumping = false;
         }
         if (collision.transform.CompareTag("Drop"))
         {
             isClimbing = false;
             isDropping = false;
+        }
+        if (collision.transform.CompareTag("Ground"))
+        {
+            //isJumping = true;
         }
     }
 
@@ -162,7 +168,6 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("EndClimb"))
         {
-            Debug.Log("end climb");
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 0;
             transform.eulerAngles = eulerAngles;
