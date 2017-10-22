@@ -4,48 +4,66 @@ using UnityEngine;
 
 public class MapScript : MonoBehaviour {
 
-	public int currentLevel;
-	public int clickedLevel;
-	public int maxAvailableLevel;
-	public Vector3 currentPosition;
-	public Vector3 targetPosition;
-	public float playerSpeed;
+
+	// current level
+	public int currentLevel = 1; // it is set to 1 for testing purposes
+
+	// maximum available level
+	public int maxAvailableLevel = 3; // it is set to 3 for testing purposes
+
+	// selected level
+	private int selectedLevel = 1;
+
+	// clicked level
+	// WARNING! It is used
+	private int tempClickedLevel;
+
+	// current position of the user
+	// WARNING! it is used only for the smooth movement
+	private Vector3 currentPosition;
+
+	// player's speed
+	private float playerSpeed = 0.05f;
+
+	// scene controller object
 	private SceneController sceneController;
 
+	// boolean variable which shows if the player is moving
+	private bool isPlayerMoving = false; 
+	
 	void Start () {
-		Debug.Log("STARTED");
+		Debug.Log("Map Scene Started!");
 
+		// get scene controller object
 		sceneController = FindObjectOfType<SceneController> ();
 
-		// set current level
-		currentLevel = 1;
-
-		// set max available level
-		maxAvailableLevel = 3;
-		
-		// define player's speed
-		playerSpeed = 0.05f;
-
-		// get current level position
+		// initialize player's position to the current level
 		currentPosition = GameObject.Find("Level_" + currentLevel).transform.position;
-
-		// move player to the current level position
-		GameObject.Find("Player").transform.position = currentPosition;
-
-		// set target position
-		targetPosition = currentPosition;
+		GameObject.Find("Player").transform.position = GameObject.Find("Level_" + currentLevel).transform.position;
 	}
 	
 	void Update () {
 
-		// if target position is different from the current one
-		// move the player gradually to it per frame
-		if (targetPosition != currentPosition) {
-			// update current position by moving it towards the targeted one
-			currentPosition = Vector3.MoveTowards(currentPosition, targetPosition, playerSpeed);
+		// if selected level is different from the current one
+		// move the player gradually to the selected level per frame
+		if (currentPosition != GameObject.Find("Level_" + selectedLevel).transform.position) {
+
+			// update current position by moving it towards the selected level
+			currentPosition = Vector3.MoveTowards(currentPosition, GameObject.Find("Level_" + selectedLevel).transform.position, playerSpeed);
 
 			// update player position
 			GameObject.Find("Player").transform.position = currentPosition;
+		} else {
+			// when the below condition is true, 
+			// it means that the player has reached the selected level
+			if (currentLevel != selectedLevel) {
+				
+				// update current level
+				currentLevel = selectedLevel;
+
+				Debug.Log("Transition to Level_" + currentLevel + "!");
+				// sceneController.FadeAndLoadScene("Scenes/Levels/Level" + selectedLevel);
+			}
 		}
 		
 		// Event on mouse click
@@ -58,20 +76,20 @@ public class MapScript : MonoBehaviour {
 			
 			// check if user clicked a sprite
 			if (hit.collider != null) {
+
 				// get clicked level
-				clickedLevel = int.Parse(hit.collider.name.Substring(hit.collider.name.Length-1, 1));
+				tempClickedLevel = int.Parse(hit.collider.name.Substring(hit.collider.name.Length-1, 1));
 				
 				// check if the clicked level is available
-				if ( clickedLevel <= maxAvailableLevel) {
-					// update current level
-					currentLevel = clickedLevel;
+				if (tempClickedLevel <= maxAvailableLevel) {
 
-					// update target position
-					targetPosition = GameObject.Find("Level_" + currentLevel).transform.position;
+					// player is moving
+					isPlayerMoving = true;
 
-					if(clickedLevel == 2){
-						sceneController.FadeAndLoadScene("Scenes/Levels/Level1");
-					}
+					// set the selected level
+					selectedLevel = tempClickedLevel;
+
+					Debug.Log("Start moving to Level_" + selectedLevel + "!");
 				}
 				
 			}
