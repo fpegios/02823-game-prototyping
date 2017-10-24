@@ -104,6 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4918909817125928}
   - component: {fileID: 60159293570252914}
+  - component: {fileID: 68046916870247382}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Ground
@@ -144,7 +145,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1791040550755032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -49.50695, y: 2.4705892, z: 0}
+  m_LocalPosition: {x: 109.13, y: -25.874, z: 0}
   m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_Children:
   - {fileID: 4984404594437028}
@@ -285,7 +286,7 @@ PolygonCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1889996936489484}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -385,6 +386,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0000001, y: 1.0464481}
   m_EdgeRadius: 0
+--- !u!68 &68046916870247382
+EdgeCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1889996936489484}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -122.93224, y: -319.9566}
+  - {x: 136.70387, y: -257.60907}
+  - {x: -122.74876, y: -257.1079}
 --- !u!114 &114666084279430078
 MonoBehaviour:
   m_ObjectHideFlags: 1
