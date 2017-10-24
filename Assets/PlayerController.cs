@@ -171,5 +171,10 @@ public class PlayerController : MonoBehaviour
             eulerAngles.z = 0;
             transform.eulerAngles = eulerAngles;
         }
+
+        if (collision.CompareTag("Death"))
+        {
+            Debug.Log("DEATH");
+        }
     }
 }

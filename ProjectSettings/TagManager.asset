@@ -9,6 +9,7 @@ TagManager:
   - Climb
   - EndClimb
   - Drop
+  - Death
   layers:
   - Default
   - TransparentFX
