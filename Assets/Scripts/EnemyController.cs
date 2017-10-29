@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour {
 	
 	void Update () {
 		// update object's velocity per frame
-		rb.velocity = new Vector3(direction * 5, 0, 0);
+		rb.velocity = new Vector3(direction * 4, 0, 0);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
