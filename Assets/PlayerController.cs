@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
         camera.transform.position = newPos;
 
-        //print(isJumping);
+        print(rb.velocity.x);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
         if (collision.transform.CompareTag("Trampoline"))
         {
-            rb.AddForce(new Vector2(0, jumpSpeed + coeff + 12), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0, jumpSpeed + coeff + 20), ForceMode2D.Impulse);
             isJumping = true;
             onTrampoline = true;
         }
