@@ -12,6 +12,10 @@ TagManager:
   - Death
   - DoubleJump
   - Trampoline
+  - Rock
+  - RockFall
+  - EnemyLimit
+  - MovingEnemy
   layers:
   - Default
   - TransparentFX
