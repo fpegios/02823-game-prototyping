@@ -129,6 +129,12 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
 
+        // detect collision with Rock
+        if (collision.transform.CompareTag("Rock")) {
+            Debug.Log("DEATH FROM ROCK!");
+            // make the Rock static to avoid any movement due to player's velocity
+            collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
     }
 
 
@@ -176,5 +182,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("DEATH");
         }
+
+        // player triggers the rock fall
+        if (collision.tag == "RockFall") {
+            Debug.Log("ROCK IS FALLING!");
+            // get trigger's parent object -> get first child -> increase gravity
+            collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
+        }
+        
     }
 }
