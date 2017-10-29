@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(rb.velocity.x);
 
         // Getting the input - if Space is pressed
-        
+
         Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
         camera.transform.position = newPos;
 
@@ -146,6 +146,13 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
             onTrampoline = true;
         }
+        // detect collision with Rock
+        if (collision.transform.CompareTag("Rock"))
+        {
+            Debug.Log("DEATH FROM ROCK!");
+            // make the Rock static to avoid any movement due to player's velocity
+            collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
     }
 
 
@@ -170,7 +177,7 @@ public class PlayerController : MonoBehaviour
         if (collision.transform.CompareTag("Trampoline"))
         {
             isJumping = true;
-            
+
         }
     }
 
@@ -213,5 +220,13 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
             this.coeff -= doubleJumpCoefficient;
         }
+        // player triggers the rock fall
+        if (collision.tag == "RockFall")
+        {
+            Debug.Log("ROCK IS FALLING!");
+            // get trigger's parent object -> get first child -> increase gravity
+            collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
+        }
+
     }
 }
