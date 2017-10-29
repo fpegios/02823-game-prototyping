@@ -129,8 +129,10 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
 
+        // detect collision with Rock
         if (collision.transform.CompareTag("Rock")) {
             Debug.Log("DEATH FROM ROCK!");
+            // make the Rock static to avoid any movement due to player's velocity
             collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
     }
