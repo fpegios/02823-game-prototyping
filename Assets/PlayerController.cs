@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
 
     private bool isDropping;
 
+    public float doubleJumpCoefficient;
+
+    private bool onTrampoline;
+
     // Use this for initialization
     void Start()
     {
@@ -56,6 +60,12 @@ public class PlayerController : MonoBehaviour
             this.isJumping = true;
 
         }
+
+        if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0)) && isJumping && !onTrampoline && rb.velocity.y >= 0)
+        {
+            rb.velocity *= 0.5f;
+        }
+
         // Check if it's time to boost the player
         if (toCount)
         {
@@ -127,8 +137,15 @@ public class PlayerController : MonoBehaviour
         if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb") || collision.transform.CompareTag("Drop")))
         {
             isJumping = false;
+            onTrampoline = false;
         }
 
+        if (collision.transform.CompareTag("Trampoline"))
+        {
+            rb.AddForce(new Vector2(0, jumpSpeed + coeff + 12), ForceMode2D.Impulse);
+            isJumping = true;
+            onTrampoline = true;
+        }
     }
 
 
@@ -149,6 +166,11 @@ public class PlayerController : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             //isJumping = true;
+        }
+        if (collision.transform.CompareTag("Trampoline"))
+        {
+            isJumping = true;
+            
         }
     }
 
@@ -175,6 +197,21 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Death"))
         {
             Debug.Log("DEATH");
+        }
+
+        if (collision.CompareTag("DoubleJump"))
+        {
+            isJumping = false;
+            this.coeff += doubleJumpCoefficient;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("DoubleJump"))
+        {
+            isJumping = true;
+            this.coeff -= doubleJumpCoefficient;
         }
     }
 }

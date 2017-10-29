@@ -10,6 +10,8 @@ TagManager:
   - EndClimb
   - Drop
   - Death
+  - DoubleJump
+  - Trampoline
   layers:
   - Default
   - TransparentFX
