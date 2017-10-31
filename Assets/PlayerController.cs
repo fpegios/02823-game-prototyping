@@ -104,8 +104,9 @@ public class PlayerController : MonoBehaviour
 
         // Getting the input - if Space is pressed
 
-        Vector3 newPos = new Vector3(transform.position.x, transform.position.y, -13);
+        Vector3 newPos = new Vector3(transform.position.x, camera.transform.position.y, -30);
         camera.transform.position = newPos;
+
 
         print(rb.velocity.x);
     }
