@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         camera.transform.position = newPos;
 
 
-        print(rb.velocity.x);
+//        print(rb.velocity.x);
     }
 
     private void OnCollisionStay2D(Collision2D collision)

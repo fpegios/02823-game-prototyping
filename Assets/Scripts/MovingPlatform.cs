@@ -13,7 +13,7 @@ public class MovingPlatform : MonoBehaviour {
 	
 	void Update () {
 		// X = Acos(wt) = Acos(2πf)
-		Debug.Log(transform.position);
+		//Debug.Log(transform.position);
 		transform.position = new Vector3(originalPosition.x + Mathf.Sin(Time.time * frequency) * amplitude, originalPosition.y, originalPosition.z);
 	}
 }
