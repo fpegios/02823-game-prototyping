@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 209147824}
   - component: {fileID: 209147825}
   m_Layer: 0
-  m_Name: Level_4
+  m_Name: Level4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 426146162}
   - component: {fileID: 426146163}
   m_Layer: 0
-  m_Name: Level_2
+  m_Name: Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 830818584}
   - component: {fileID: 830818585}
   m_Layer: 0
-  m_Name: Level_1
+  m_Name: Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,8 +498,8 @@ SpriteRenderer:
   m_SortingLayerID: 79916225
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: d3ec665275f3f334a8f80024bd61e960, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a9c136f9dcfd3954fa0f3fab6260607f, type: 3}
+  m_Color: {r: 0.93610555, g: 1, b: 0.33823532, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -532,7 +532,7 @@ GameObject:
   - component: {fileID: 1198837474}
   - component: {fileID: 1198837475}
   m_Layer: 0
-  m_Name: Level_3
+  m_Name: Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -661,7 +661,7 @@ GameObject:
   - component: {fileID: 1594816676}
   - component: {fileID: 1594816677}
   m_Layer: 0
-  m_Name: Level_5
+  m_Name: Level5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
