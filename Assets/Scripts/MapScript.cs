@@ -7,7 +7,7 @@ public class MapScript : MonoBehaviour {
 
 
 	public int currentLevel = 1; // it is set to 1 for testing purposes
-	public int maxAvailableLevel = 3; // it is set to 3 for testing purposes
+	public int maxAvailableLevel = 5; // it is set to 3 for testing purposes
 	private int selectedLevel = 1;
 
 	// clicked level
