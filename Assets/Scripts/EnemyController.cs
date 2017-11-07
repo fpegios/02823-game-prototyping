@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
+	public float speed = 4.0f;
 	private Rigidbody2D rb;
 	private int[] directions = new int[] {-1, 1};
 	private int direction;
@@ -16,7 +17,7 @@ public class EnemyController : MonoBehaviour {
 	
 	void Update () {
 		// update object's velocity per frame
-		rb.velocity = new Vector3(direction * 4, 0, 0);
+		rb.velocity = new Vector3(direction * speed, 0, 0);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
