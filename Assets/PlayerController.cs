@@ -33,13 +33,18 @@ public class PlayerController : MonoBehaviour
 
     private bool isClimbing;
 
-    public GameObject camera;
+    public Camera camera;
+    private Camera tempCamera;
 
     private bool isDropping;
 
     public float doubleJumpCoefficient;
 
     private bool onTrampoline;
+
+    private float initialYCameraValue;
+
+    private bool firstTime = true;
 
     // Use this for initialization
     void Start()
@@ -48,10 +53,15 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 3;
         stableCoeff = coeff;
+        initialYCameraValue = camera.transform.position.y;
+        tempCamera = camera;
+        print(camera.transform.position.y);
+        print(transform.position.y);
     }
 
     void Update()
     {
+       
 
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && !isJumping)
         {
@@ -103,12 +113,27 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(rb.velocity.x);
 
         // Getting the input - if Space is pressed
-
-        Vector3 newPos = new Vector3(transform.position.x, camera.transform.position.y, -30);
-        camera.transform.position = newPos;
-
+        Vector3 newPos;
+        if (firstTime)
+        {
+            newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
+            camera.transform.position = newPos;
+            firstTime = false;
+            tempCamera.transform.position = camera.transform.position;
+        }
+        
+        if (transform.position.y > -45f)//camera.WorldToScreenPoint(transform.position).y > Screen.height/3)
+        {
+            float offset = transform.position.y + 45f;
+            camera.transform.position = new Vector3(transform.position.x, initialYCameraValue+offset*0.92f, -30);
+        }
+        else
+        {
+            camera.transform.position = new Vector3(transform.position.x, -49, -30);
+        }
 
         print(rb.velocity.x);
+
     }
 
     private void OnCollisionStay2D(Collision2D collision)
