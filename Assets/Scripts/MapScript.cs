@@ -1,17 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapScript : MonoBehaviour {
 
 
-	// current level
 	public int currentLevel = 1; // it is set to 1 for testing purposes
-
-	// maximum available level
-	public int maxAvailableLevel = 3; // it is set to 3 for testing purposes
-
-	// selected level
+	public int maxAvailableLevel = 5; // it is set to 3 for testing purposes
 	private int selectedLevel = 1;
 
 	// clicked level
@@ -21,35 +17,33 @@ public class MapScript : MonoBehaviour {
 	// current position of the user
 	// WARNING! it is used only for the smooth movement
 	private Vector3 currentPosition;
-
-	// player's speed
 	private float playerSpeed = 0.05f;
-
-	// scene controller object
 	private SceneController sceneController;
-
-	// boolean variable which shows if the player is moving
 	private bool isPlayerMoving = false; 
-	
-	void Start () {
-		Debug.Log("Map Scene Started!");
 
-		// get scene controller object
-		sceneController = FindObjectOfType<SceneController> ();
-
-		// initialize player's position to the current level
-		currentPosition = GameObject.Find("Level_" + currentLevel).transform.position;
-		GameObject.Find("Player").transform.position = GameObject.Find("Level_" + currentLevel).transform.position;
+	void Awake()
+	{
+        sceneController = FindObjectOfType<SceneController>();
+        if(!sceneController)
+            throw new UnityException("Scene Controller could not be found, ensure that it exists in the Persistent scene.");
 	}
-	
-	void Update () {
+
+	void Start () {
+		var completedLevels = StateController.stateController.CompletedLevels;
+		ColorMilestones(completedLevels);
+		// initialize player's position to the current level
+		currentPosition = GameObject.Find("Level" + currentLevel).transform.position;
+		GameObject.Find("Player").transform.position = GameObject.Find("Level" + currentLevel).transform.position;
+	}
+
+    void Update () {
 
 		// if selected level is different from the current one
 		// move the player gradually to the selected level per frame
-		if (currentPosition != GameObject.Find("Level_" + selectedLevel).transform.position) {
+		if (currentPosition != GameObject.Find("Level" + selectedLevel).transform.position) {
 
 			// update current position by moving it towards the selected level
-			currentPosition = Vector3.MoveTowards(currentPosition, GameObject.Find("Level_" + selectedLevel).transform.position, playerSpeed);
+			currentPosition = Vector3.MoveTowards(currentPosition, GameObject.Find("Level" + selectedLevel).transform.position, playerSpeed);
 
 			// update player position
 			GameObject.Find("Player").transform.position = currentPosition;
@@ -57,12 +51,8 @@ public class MapScript : MonoBehaviour {
 			// when the below condition is true, 
 			// it means that the player has reached the selected level
 			if (currentLevel != selectedLevel) {
-				
-				// update current level
 				currentLevel = selectedLevel;
-
-				Debug.Log("Transition to Level_" + currentLevel + "!");
-				// sceneController.FadeAndLoadScene("Scenes/Levels/Level" + selectedLevel);
+				sceneController.FadeAndLoadScene("Scenes/Levels/Level" + selectedLevel);
 			}
 		}
 		
@@ -88,11 +78,22 @@ public class MapScript : MonoBehaviour {
 
 					// set the selected level
 					selectedLevel = tempClickedLevel;
-
-					Debug.Log("Start moving to Level_" + selectedLevel + "!");
 				}
-				
 			}
         }
+	}
+	private void ColorMilestones(Dictionary<Level, bool> completedLevels)
+    {
+        foreach(KeyValuePair<Level, bool> level in completedLevels)
+		{
+			if(level.Value){
+				ColorMilestone(level.Key);
+			}
+		}
+    }
+	private void ColorMilestone(Level level){
+		var milestone = GameObject.Find(level.ToString());
+		var spriteRenderer = milestone.GetComponent<SpriteRenderer>();
+		spriteRenderer.color = new Color(0, 200, 0);
 	}
 }

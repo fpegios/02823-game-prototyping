@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     public float doubleJumpCoefficient;
 
     private bool onTrampoline;
+    
+    private GameObject GameOverMenu;
 
     private float initialYCameraValue;
 
@@ -57,6 +59,10 @@ public class PlayerController : MonoBehaviour
         tempCamera = camera;
         print(camera.transform.position.y);
         print(transform.position.y);
+
+        // find and hide the game over menu
+        GameOverMenu = GameObject.Find("GameOverMenu");
+        GameOverMenu.SetActive(false);
     }
 
     void Update()
@@ -131,9 +137,9 @@ public class PlayerController : MonoBehaviour
         {
             camera.transform.position = new Vector3(transform.position.x, -49, -30);
         }
-
+        
         print(rb.velocity.x);
-
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -230,6 +236,10 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Death"))
         {
             Debug.Log("DEATH");
+            // activate and show the game over menu
+            GameOverMenu.SetActive(true);
+            // deacivate and hide the player
+            this.gameObject.SetActive(false);
         }
 
         if (collision.CompareTag("DoubleJump"))

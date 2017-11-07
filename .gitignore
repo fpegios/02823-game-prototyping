@@ -38,3 +38,4 @@ sysinfo.txt
 ProjectSettings/TagManager.asset
 Assets/PlayerController.cs
 ProjectSettings/TagManager.asset
+Assets/Scripts/MovingPlatform.cs
