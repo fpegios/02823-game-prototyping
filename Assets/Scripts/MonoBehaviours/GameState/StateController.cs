@@ -6,8 +6,8 @@ public class StateController : MonoBehaviour {
 
 	public static StateController stateController;
 
-	private Dictionary<Level, bool> _completedLevels;
-	public Dictionary<Level, bool> CompletedLevels{
+	private Dictionary<LevelName, bool> _completedLevels;
+	public Dictionary<LevelName, bool> CompletedLevels{
 		get { return _completedLevels; }
 	}
 
@@ -16,12 +16,12 @@ public class StateController : MonoBehaviour {
 		if(stateController == null){
 			DontDestroyOnLoad(gameObject);
 			stateController = this;
-			_completedLevels = new Dictionary<Level,bool>(){
-				{Level.Level1, false},
-				{Level.Level2, false},
-				{Level.Level3, false},
-				{Level.Level4, false},
-				{Level.Level5, false}
+			_completedLevels = new Dictionary<LevelName,bool>(){
+				{LevelName.Level1, false},
+				{LevelName.Level2, false},
+				{LevelName.Level3, false},
+				{LevelName.Level4, false},
+				{LevelName.Level5, false}
 			};
 		}
 		else{

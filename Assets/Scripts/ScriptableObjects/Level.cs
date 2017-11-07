@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Level {
-	Level1,
-	Level2,
-	Level3,
-	Level4,
-	Level5
+public class Level : ScriptableObject {
+
+	private LevelName levelName;
+	
+
+
 }

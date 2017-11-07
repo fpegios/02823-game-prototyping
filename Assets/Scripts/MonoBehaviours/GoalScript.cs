@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GoalScript : MonoBehaviour {
-	public Level level;
+	public LevelName level;
 	private string mapSceneRelativePath = "Scenes/Other/MapScene";
 	private SceneController sceneController;
 
@@ -19,7 +19,7 @@ public class GoalScript : MonoBehaviour {
 		SetLevelCompleteAndFadeToScene(level, mapSceneRelativePath);
 	}
 
-	private void SetLevelCompleteAndFadeToScene(Level level, string sceneRelativePath){
+	private void SetLevelCompleteAndFadeToScene(LevelName level, string sceneRelativePath){
 		StateController.stateController.CompletedLevels[level] = true;
 		sceneController.FadeAndLoadScene(sceneRelativePath);
 	}

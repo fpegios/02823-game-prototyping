@@ -82,16 +82,16 @@ public class MapScript : MonoBehaviour {
 			}
         }
 	}
-	private void ColorMilestones(Dictionary<Level, bool> completedLevels)
+	private void ColorMilestones(Dictionary<LevelName, bool> completedLevels)
     {
-        foreach(KeyValuePair<Level, bool> level in completedLevels)
+        foreach(KeyValuePair<LevelName, bool> level in completedLevels)
 		{
 			if(level.Value){
 				ColorMilestone(level.Key);
 			}
 		}
     }
-	private void ColorMilestone(Level level){
+	private void ColorMilestone(LevelName level){
 		var milestone = GameObject.Find(level.ToString());
 		var spriteRenderer = milestone.GetComponent<SpriteRenderer>();
 		spriteRenderer.color = new Color(0, 200, 0);
