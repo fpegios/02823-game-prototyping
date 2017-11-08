@@ -3,7 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - BoostPoint
+  - Ground
+  - Climb
+  - EndClimb
+  - Drop
+  - Death
+  - DoubleJump
+  - Trampoline
+  - Rock
+  - RockFall
+  - EnemyLimit
+  - MovingEnemy
   layers:
   - Default
   - TransparentFX
@@ -40,4 +52,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: MapLayer
+    uniqueID: 79916225
     locked: 0
