@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f895ad9d3bd14c1580b0489e95c0c91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeTime: 2
+  fadeTime: 1
   startVolume: 1
 --- !u!4 &697308228
 Transform:

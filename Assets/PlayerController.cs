@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
             camera.transform.position = new Vector3(transform.position.x, -49, -30);
         }
         
-        print(rb.velocity.x);
+//        print(rb.velocity.x);
         
     }
 
