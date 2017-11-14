@@ -309,7 +309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846118fc9ef004e52b0274caa7668d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLevel1Completed: 0
 --- !u!4 &1301637085
 Transform:
   m_ObjectHideFlags: 0
@@ -346,7 +345,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1426005974}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!4 &1426005976
 Transform:
   m_ObjectHideFlags: 0
