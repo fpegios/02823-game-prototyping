@@ -16,6 +16,7 @@ TagManager:
   - RockFall
   - EnemyLimit
   - MovingEnemy
+  - Mine
   layers:
   - Default
   - TransparentFX
