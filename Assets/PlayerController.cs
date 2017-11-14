@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
 
     private bool firstTime = true;
 
+    public float minimumYPosition;
+
+    public float jumpMultiplier;
+
     // Use this for initialization
     void Start()
     {
@@ -57,8 +61,6 @@ public class PlayerController : MonoBehaviour
         stableCoeff = coeff;
         initialYCameraValue = camera.transform.position.y;
         tempCamera = camera;
-        print(camera.transform.position.y);
-        print(transform.position.y);
 
         // find and hide the game over menu
         GameOverMenu = GameObject.Find("GameOverMenu");
@@ -71,7 +73,6 @@ public class PlayerController : MonoBehaviour
 
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && !isJumping)
         {
-            Debug.Log("Pressed!");
             rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
             this.isJumping = true;
 
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0)) && isJumping && !onTrampoline && rb.velocity.y >= 0)
         {
-            rb.velocity *= 0.5f;
+            rb.velocity *= jumpMultiplier;
         }
 
         // Check if it's time to boost the player
@@ -120,6 +121,7 @@ public class PlayerController : MonoBehaviour
 
         // Getting the input - if Space is pressed
         Vector3 newPos;
+        /* Code concerning the camera movement.*/
         if (firstTime)
         {
             newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
@@ -138,7 +140,11 @@ public class PlayerController : MonoBehaviour
             camera.transform.position = new Vector3(transform.position.x, -49, -30);
         }
         
-//        print(rb.velocity.x);
+        // Check Y position of the player -> if < minimumYPosition, then the player has fallen and must be killed
+        if (transform.position.y < minimumYPosition)
+        {
+            // TODO: kill player for falling
+        }
         
     }
 
@@ -181,9 +187,14 @@ public class PlayerController : MonoBehaviour
         // detect collision with Rock
         if (collision.transform.CompareTag("Rock"))
         {
-            Debug.Log("DEATH FROM ROCK!");
             // make the Rock static to avoid any movement due to player's velocity
             collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
+
+        if (collision.transform.CompareTag("MovingEnemy") && transform.position.y > collision.gameObject.transform.position.y)
+        {
+            Destroy(collision.gameObject);
+            rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
         }
     }
 
@@ -235,7 +246,6 @@ public class PlayerController : MonoBehaviour
 
         if (collision.CompareTag("Death"))
         {
-            Debug.Log("DEATH");
             // activate and show the game over menu
             GameOverMenu.SetActive(true);
             // deacivate and hide the player
@@ -259,7 +269,6 @@ public class PlayerController : MonoBehaviour
         // player triggers the rock fall
         if (collision.tag == "RockFall")
         {
-            Debug.Log("ROCK IS FALLING!");
             // get trigger's parent object -> get first child -> increase gravity
             collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
         }
