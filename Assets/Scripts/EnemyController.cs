@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour {
 	private Rigidbody2D rb;
 	private int[] directions = new int[] {-1, 1};
 	private int direction;
-	
+
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
 		// get initial directionusing random function
@@ -16,8 +16,12 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void Update () {
-		// update object's velocity per frame
-		rb.velocity = new Vector3(direction * speed, 0, 0);
+		if (PlayerController.gameState == PlayerController.GameState.Play) {
+			// update object's velocity per frame
+			rb.velocity = new Vector3(direction * speed, 0, 0);
+		} else {
+			rb.velocity = Vector3.zero;
+		}
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)

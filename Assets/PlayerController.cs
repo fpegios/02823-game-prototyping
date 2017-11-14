@@ -52,6 +52,9 @@ public class PlayerController : MonoBehaviour
 
     public float jumpMultiplier;
 
+    public enum GameState {Play, Pause};
+    public static GameState gameState;
+
     // Use this for initialization
     void Start()
     {
@@ -65,88 +68,99 @@ public class PlayerController : MonoBehaviour
         // find and hide the game over menu
         GameOverMenu = GameObject.Find("GameOverMenu");
         GameOverMenu.SetActive(false);
+        gameState = GameState.Play;
     }
 
     void Update()
-    {
-       
-
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && !isJumping)
-        {
-            rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
-            this.isJumping = true;
-
-        }
-
-        if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0)) && isJumping && !onTrampoline && rb.velocity.y >= 0)
-        {
-            rb.velocity *= jumpMultiplier;
-        }
-
-        // Check if it's time to boost the player
-        if (toCount)
-        {
-            // Check if it's necessary to save the current frame number
-            if (toSave)
-            {
-                // Setting to false the variable
-                toSave = false;
-                // Saving the current frame number
-                tempCount = Time.frameCount;
+    {   
+        // toggle between play and pause state by pressing escape
+        if ((Input.GetKeyDown(KeyCode.Escape))) {
+            Debug.Log("ESCAPE");
+            if (gameState == GameState.Play) {
+                gameState = GameState.Pause;
+                rb.velocity = Vector3.zero;
+            } else if (gameState == GameState.Pause) {
+                gameState = GameState.Play;
             }
-            // If the current frame number is higher than the sum of the one previously saved plus the frame range set publicly
-            if (Time.frameCount > tempCount + frameRange)
+        }
+
+        if (gameState == GameState.Play) {
+            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && !isJumping)
             {
-                // Reset the variable which stored the previous frame number 
-                tempCount = 0;
-                // Setting to false the most external boolean variable
-                toCount = false;
+                rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
+                this.isJumping = true;
+
+            }
+
+            if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0)) && isJumping && !onTrampoline && rb.velocity.y >= 0)
+            {
+                rb.velocity *= jumpMultiplier;
+            }
+
+            // Check if it's time to boost the player
+            if (toCount)
+            {
+                // Check if it's necessary to save the current frame number
+                if (toSave)
+                {
+                    // Setting to false the variable
+                    toSave = false;
+                    // Saving the current frame number
+                    tempCount = Time.frameCount;
+                }
+                // If the current frame number is higher than the sum of the one previously saved plus the frame range set publicly
+                if (Time.frameCount > tempCount + frameRange)
+                {
+                    // Reset the variable which stored the previous frame number 
+                    tempCount = 0;
+                    // Setting to false the most external boolean variable
+                    toCount = false;
+                }
+                else
+                {
+                    // Otherwise, we accelerate the player's speed by a certain amount per frame
+                    rb.velocity = new Vector2(maxSpeed + speedUpValue, rb.velocity.y);
+                    // Setting the speed indicated by the maxSpeed variable with the current one
+                    maxSpeed = rb.velocity.x;
+                }
+            }
+            // If it's not the right time to boost the player, then we make the player move at a constant speed
+            else if (!isClimbing)
+            {
+                rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+            }
+            // Updating the velocity property of the object
+
+            //Debug.Log(rb.velocity.x);
+
+            // Getting the input - if Space is pressed
+            Vector3 newPos;
+            /* Code concerning the camera movement.*/
+            if (firstTime)
+            {
+                newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
+                camera.transform.position = newPos;
+                firstTime = false;
+                tempCamera.transform.position = camera.transform.position;
+            }
+            
+            if (transform.position.y > -45f)//camera.WorldToScreenPoint(transform.position).y > Screen.height/3)
+            {
+                float offset = transform.position.y + 45f;
+                camera.transform.position = new Vector3(transform.position.x, initialYCameraValue+offset*0.92f, -30);
             }
             else
             {
-                // Otherwise, we accelerate the player's speed by a certain amount per frame
-                rb.velocity = new Vector2(maxSpeed + speedUpValue, rb.velocity.y);
-                // Setting the speed indicated by the maxSpeed variable with the current one
-                maxSpeed = rb.velocity.x;
+                camera.transform.position = new Vector3(transform.position.x, -49, -30);
+            }
+            
+            // Check Y position of the player -> if < minimumYPosition, then the player has fallen and must be killed
+            if (transform.position.y < minimumYPosition)
+            {
+                // TODO: kill player for falling
             }
         }
-        // If it's not the right time to boost the player, then we make the player move at a constant speed
-        else if (!isClimbing)
-        {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
-        }
-        // Updating the velocity property of the object
-
-        //Debug.Log(rb.velocity.x);
-
-        // Getting the input - if Space is pressed
-        Vector3 newPos;
-        /* Code concerning the camera movement.*/
-        if (firstTime)
-        {
-            newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
-            camera.transform.position = newPos;
-            firstTime = false;
-            tempCamera.transform.position = camera.transform.position;
-        }
-        
-        if (transform.position.y > -45f)//camera.WorldToScreenPoint(transform.position).y > Screen.height/3)
-        {
-            float offset = transform.position.y + 45f;
-            camera.transform.position = new Vector3(transform.position.x, initialYCameraValue+offset*0.92f, -30);
-        }
-        else
-        {
-            camera.transform.position = new Vector3(transform.position.x, -49, -30);
-        }
-        
-        // Check Y position of the player -> if < minimumYPosition, then the player has fallen and must be killed
-        if (transform.position.y < minimumYPosition)
-        {
-            // TODO: kill player for falling
-        }
-        
-    }
+    } // void Update()
 
     private void OnCollisionStay2D(Collision2D collision)
     {
