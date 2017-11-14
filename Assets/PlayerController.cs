@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
 
     private bool firstTime = true;
 
+    public float minimumYPosition;
+
+    public float jumpMultiplier;
+
     // Use this for initialization
     void Start()
     {
@@ -76,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
         if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0)) && isJumping && !onTrampoline && rb.velocity.y >= 0)
         {
-            rb.velocity *= 0.5f;
+            rb.velocity *= jumpMultiplier;
         }
 
         // Check if it's time to boost the player
@@ -117,6 +121,7 @@ public class PlayerController : MonoBehaviour
 
         // Getting the input - if Space is pressed
         Vector3 newPos;
+        /* Code concerning the camera movement.*/
         if (firstTime)
         {
             newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
@@ -135,6 +140,11 @@ public class PlayerController : MonoBehaviour
             camera.transform.position = new Vector3(transform.position.x, -49, -30);
         }
         
+        // Check Y position of the player -> if < minimumYPosition, then the player has fallen and must be killed
+        if (transform.position.y < minimumYPosition)
+        {
+            // TODO: kill player for falling
+        }
         
     }
 
