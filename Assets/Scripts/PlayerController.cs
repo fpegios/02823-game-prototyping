@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
     public float maxSpeed;
     public float jumpSpeed;
 
+    [Range(1, 20)]
+    public float jumpVelocity = 12;
+    public float fallMultiplier = 5f;
+    public float lowJumpMultiplier = 17f;
+
     // Reference to the Rigidbody2D component attached to the player
     private Rigidbody2D rb;
 
@@ -15,10 +20,10 @@ public class PlayerController : MonoBehaviour
     public float frameRange;
 
     // Boolean variable which indicates if the time to boost the player has come
-    private bool toCount = false;
+    private bool isBoostActive = false;
 
     // Variable which will store the frame number at a certain point in time
-    private float tempCount;
+    private float frameCountOnBoostActivation;
 
     // Boolean variable which indicates if we have to save the current frame number
     private bool toSave;
@@ -52,93 +57,74 @@ public class PlayerController : MonoBehaviour
 
     public float jumpMultiplier;
 
-    // Use this for initialization
+    private Animator animator;
+    private bool isGrounded;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        GameOverMenu = GameObject.Find("GameOverMenu");
+        GameOverMenu.SetActive(false);
+    }
     void Start()
     {
-        // Getting the Rigidbody2D component
-        rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 3;
         stableCoeff = coeff;
         initialYCameraValue = camera.transform.position.y;
         tempCamera = camera;
+    }
+    
+    void FixedUpdate()
+    {
+        if(Input.GetKey(KeyCode.Space) && isGrounded)
+            Jump();
 
-        // find and hide the game over menu
-        GameOverMenu = GameObject.Find("GameOverMenu");
-        GameOverMenu.SetActive(false);
+        if (isBoostActive)
+            Boost();
+
+        HandlePhysics();      
+    }
+
+    private void Jump(){
+        rb.velocity = Vector2.up * jumpVelocity;
+        isGrounded = false;
+    }
+
+    private void HandlePhysics(){
+        HandleJumpPhysics();
+        SetConstantRunSpeed();
+    }
+
+    private void HandleJumpPhysics(){
+        if(rb.velocity.y < 0 && !isClimbing){
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1 ) * Time.deltaTime;
+        }
+        else if(rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space) && !isClimbing){
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+    }
+    
+    private void SetConstantRunSpeed(){
+        rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+    }
+
+    private void Boost(){
+        if (Time.frameCount > frameCountOnBoostActivation + frameRange)
+        {
+            frameCountOnBoostActivation = 0;
+            isBoostActive = false;
+        }
+        else
+        {
+            rb.velocity = new Vector2(maxSpeed + speedUpValue, rb.velocity.y);
+            maxSpeed = rb.velocity.x;
+        }
     }
 
     void Update()
     {
-       
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && !isJumping)
-        {
-            rb.AddForce(new Vector2(0, jumpSpeed + coeff), ForceMode2D.Impulse);
-            this.isJumping = true;
-
-        }
-
-        if ((Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0)) && isJumping && !onTrampoline && rb.velocity.y >= 0)
-        {
-            rb.velocity *= jumpMultiplier;
-        }
-
-        // Check if it's time to boost the player
-        if (toCount)
-        {
-            // Check if it's necessary to save the current frame number
-            if (toSave)
-            {
-                // Setting to false the variable
-                toSave = false;
-                // Saving the current frame number
-                tempCount = Time.frameCount;
-            }
-            // If the current frame number is higher than the sum of the one previously saved plus the frame range set publicly
-            if (Time.frameCount > tempCount + frameRange)
-            {
-                // Reset the variable which stored the previous frame number 
-                tempCount = 0;
-                // Setting to false the most external boolean variable
-                toCount = false;
-            }
-            else
-            {
-                // Otherwise, we accelerate the player's speed by a certain amount per frame
-                rb.velocity = new Vector2(maxSpeed + speedUpValue, rb.velocity.y);
-                // Setting the speed indicated by the maxSpeed variable with the current one
-                maxSpeed = rb.velocity.x;
-            }
-        }
-        // If it's not the right time to boost the player, then we make the player move at a constant speed
-        else if (!isClimbing)
-        {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
-        }
-        // Updating the velocity property of the object
-
-        //Debug.Log(rb.velocity.x);
-
-        // Getting the input - if Space is pressed
-        Vector3 newPos;
-        /* Code concerning the camera movement.*/
-        if (firstTime)
-        {
-            newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
-            camera.transform.position = newPos;
-            firstTime = false;
-            tempCamera.transform.position = camera.transform.position;
-        }
-        
-        if (transform.position.y > -45f)//camera.WorldToScreenPoint(transform.position).y > Screen.height/3)
-        {
-            float offset = transform.position.y + 45f;
-            camera.transform.position = new Vector3(transform.position.x, initialYCameraValue+offset*0.92f, -30);
-        }
-        else
-        {
-            camera.transform.position = new Vector3(transform.position.x, -49, -30);
-        }
+        TransformCamera();
         
         // Check Y position of the player -> if < minimumYPosition, then the player has fallen and must be killed
         if (transform.position.y < minimumYPosition)
@@ -148,17 +134,34 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void TransformCamera(){
+        if (firstTime)
+        {
+            var newPos = new Vector3(transform.position.x, initialYCameraValue, -30);
+            camera.transform.position = newPos;
+            firstTime = false;
+            tempCamera.transform.position = camera.transform.position;
+        }
+        
+        if (transform.position.y > -45f)
+        {
+            float offset = transform.position.y + 45f;
+            camera.transform.position = new Vector3(transform.position.x, initialYCameraValue+offset*0.92f, -30);
+        }
+        else
+        {
+            camera.transform.position = new Vector3(transform.position.x, -49, -30);
+        }
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Climb"))
         {
-            rb.velocity = new Vector2(maxSpeed + 3, rb.velocity.y);
-            /*transform.rotation = collision.transform.rotation;
-            Debug.Log(collision.transform.rotation);*/
+            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 45;
             transform.eulerAngles = eulerAngles;
-            //isJumping = true;
         }
         if (collision.transform.CompareTag("Drop"))
         {
@@ -167,31 +170,34 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = eulerAngles;
             isDropping = true;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Climb") || collision.transform.CompareTag("Drop")))
+        if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Drop")))
         {
+            isGrounded = true;
             isJumping = false;
             onTrampoline = false;
+            animator.SetBool("IsGrounded", true);
         }
-
-        if (collision.transform.CompareTag("Trampoline"))
+        else if(collision.transform.CompareTag("Climb")){
+            isClimbing = true;
+            animator.SetBool("IsGrounded", true);
+        }
+        else if (collision.transform.CompareTag("Trampoline"))
         {
             rb.AddForce(new Vector2(0, jumpSpeed + coeff + 20), ForceMode2D.Impulse);
             isJumping = true;
             onTrampoline = true;
+            animator.SetBool("IsGrounded", true);
         }
-        // detect collision with Rock
-        if (collision.transform.CompareTag("Rock"))
+        else if (collision.transform.CompareTag("Rock"))
         {
             // make the Rock static to avoid any movement due to player's velocity
             collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
-
-        if (collision.transform.CompareTag("MovingEnemy") && transform.position.y > collision.gameObject.transform.position.y)
+        else if (collision.transform.CompareTag("MovingEnemy") && transform.position.y > collision.gameObject.transform.position.y)
         {
             Destroy(collision.gameObject);
             rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
@@ -206,24 +212,24 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
             isClimbing = false;
-            //isJumping = false;
+            animator.SetBool("IsGrounded", false);
         }
-        if (collision.transform.CompareTag("Drop"))
+        else if (collision.transform.CompareTag("Drop"))
         {
             isClimbing = false;
             isDropping = false;
+            animator.SetBool("IsGrounded", false);
         }
         if (collision.transform.CompareTag("Ground"))
         {
-            //isJumping = true;
+            animator.SetBool("IsGrounded", false);
         }
         if (collision.transform.CompareTag("Trampoline"))
         {
             isJumping = true;
-
+            animator.SetBool("IsGrounded", false);
         }
     }
-
 
     // Checking the triggers the players enters 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -232,8 +238,9 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "BoostPoint")
         {
             // It means we have to boost the player's speed
-            toCount = true;
+            isBoostActive = true;
             toSave = true;
+            frameCountOnBoostActivation = Time.frameCount;
             coeff += 1.5f;
         }
 
