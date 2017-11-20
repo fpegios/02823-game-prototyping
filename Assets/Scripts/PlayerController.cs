@@ -99,9 +99,7 @@ public class PlayerController : MonoBehaviour
         TransformCamera();
 
         if (HasFallenDown())
-        {
-            // TODO: kill player for falling
-        }
+            InvokeDeath();        
     }
 
     private void TransformCamera(){
