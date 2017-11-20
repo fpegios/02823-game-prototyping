@@ -5,58 +5,32 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Movement variables
-    public float maxSpeed;
+    [Range(1,30)]
+    public float runSpeed;
     public float jumpSpeed;
 
-    [Range(1, 20)]
+    [Range(1, 30)]
     public float jumpVelocity = 12;
+    [Range(1, 10)]
     public float fallMultiplier = 5f;
+    [Range(1, 40)]
     public float lowJumpMultiplier = 17f;
-
-    // Reference to the Rigidbody2D component attached to the player
     private Rigidbody2D rb;
-
-    // Frame range settable in Unity
     public float frameRange;
-
-    // Boolean variable which indicates if the time to boost the player has come
     private bool isBoostActive = false;
-
-    // Variable which will store the frame number at a certain point in time
-    private float frameCountOnBoostActivation;
-
-    // Boolean variable which indicates if we have to save the current frame number
-    private bool toSave;
-
-    // Variable which indicates the speed up coefficient
-    public float speedUpValue;
-
+    private float frameCountOnBoostActivation; // Variable which will store the frame number at a certain point in time
+    public float speedUpValue; // Variable which indicates the speed up coefficient
     private float coeff = 1;
-    private float stableCoeff;
-
-    private bool isJumping;
-
     private bool isClimbing;
-
     public Camera camera;
     private Camera tempCamera;
-
     private bool isDropping;
-
     public float doubleJumpCoefficient;
-
     private bool onTrampoline;
-    
     private GameObject GameOverMenu;
-
     private float initialYCameraValue;
-
     private bool firstTime = true;
-
     public float minimumYPosition;
-
-    public float jumpMultiplier;
-
     private Animator animator;
     private bool isGrounded;
 
@@ -69,7 +43,6 @@ public class PlayerController : MonoBehaviour
     }
     void Start()
     {
-        stableCoeff = coeff;
         initialYCameraValue = camera.transform.position.y;
         tempCamera = camera;
     }
@@ -105,7 +78,7 @@ public class PlayerController : MonoBehaviour
     }
     
     private void SetConstantRunSpeed(){
-        rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(runSpeed, rb.velocity.y);
     }
 
     private void Boost(){
@@ -116,22 +89,19 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rb.velocity = new Vector2(maxSpeed + speedUpValue, rb.velocity.y);
-            maxSpeed = rb.velocity.x;
+            rb.velocity = new Vector2(runSpeed + speedUpValue, rb.velocity.y);
+            runSpeed = rb.velocity.x;
         }
     }
 
     void Update()
     {
-
         TransformCamera();
-        
-        // Check Y position of the player -> if < minimumYPosition, then the player has fallen and must be killed
-        if (transform.position.y < minimumYPosition)
+
+        if (HasFallenDown())
         {
             // TODO: kill player for falling
         }
-        
     }
 
     private void TransformCamera(){
@@ -154,11 +124,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool HasFallenDown(){
+        return transform.position.y < minimumYPosition;
+    }
+
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Climb"))
         {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(runSpeed, rb.velocity.y);
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 45;
             transform.eulerAngles = eulerAngles;
@@ -177,7 +151,6 @@ public class PlayerController : MonoBehaviour
         if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Drop")))
         {
             isGrounded = true;
-            isJumping = false;
             onTrampoline = false;
             animator.SetBool("IsGrounded", true);
         }
@@ -188,7 +161,6 @@ public class PlayerController : MonoBehaviour
         else if (collision.transform.CompareTag("Trampoline"))
         {
             rb.AddForce(new Vector2(0, jumpSpeed + coeff + 20), ForceMode2D.Impulse);
-            isJumping = true;
             onTrampoline = true;
             animator.SetBool("IsGrounded", true);
         }
@@ -204,13 +176,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.transform.CompareTag("Climb"))
         {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(runSpeed, rb.velocity.y);
             isClimbing = false;
             animator.SetBool("IsGrounded", false);
         }
@@ -226,7 +196,6 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.transform.CompareTag("Trampoline"))
         {
-            isJumping = true;
             animator.SetBool("IsGrounded", false);
         }
     }
@@ -237,40 +206,34 @@ public class PlayerController : MonoBehaviour
         // If the tag of the collided trigger object is "BoostPoint"
         if (collision.tag == "BoostPoint")
         {
-            // It means we have to boost the player's speed
             isBoostActive = true;
-            toSave = true;
             frameCountOnBoostActivation = Time.frameCount;
             coeff += 1.5f;
         }
-
-        if (collision.CompareTag("EndClimb"))
+        else if (collision.CompareTag("EndClimb"))
         {
             Vector3 eulerAngles = transform.eulerAngles;
             eulerAngles.z = 0;
             transform.eulerAngles = eulerAngles;
         }
-
-        if (collision.CompareTag("Death"))
-        {
-            // activate and show the game over menu
-            GameOverMenu.SetActive(true);
-            // deacivate and hide the player
-            this.gameObject.SetActive(false);
+        else if (collision.CompareTag("Death")){
+            InvokeDeath();
         }
-
-        if (collision.CompareTag("DoubleJump"))
+        else if (collision.CompareTag("DoubleJump"))
         {
-            isJumping = false;
             this.coeff += doubleJumpCoefficient;
         }
+    }
+
+    private void InvokeDeath(){
+        GameOverMenu.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("DoubleJump"))
         {
-            isJumping = true;
             this.coeff -= doubleJumpCoefficient;
         }
         // player triggers the rock fall
