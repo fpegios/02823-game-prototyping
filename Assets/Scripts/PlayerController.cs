@@ -25,14 +25,13 @@ public class PlayerController : MonoBehaviour
     public Camera camera;
     private Camera tempCamera;
     private bool isDropping;
-    public float doubleJumpCoefficient;
     private bool onTrampoline;
     private GameObject GameOverMenu;
     private float initialYCameraValue;
     private bool firstTime = true;
     public float minimumYPosition;
     private Animator animator;
-    private bool isGrounded;
+    private bool isGrounded, isDoubleJumpActive;
     public enum GameState {Play, Pause};
     public static GameState gameState;
 
@@ -206,11 +205,9 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsGrounded", false);
         }
     }
-
-    // Checking the triggers the players enters 
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // If the tag of the collided trigger object is "BoostPoint"
         if (collision.tag == "BoostPoint")
         {
             isBoostActive = true;
@@ -228,7 +225,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.CompareTag("DoubleJump"))
         {
-            this.coeff += doubleJumpCoefficient;
+            isDoubleJumpActive = true;
         }
     }
 
@@ -241,9 +238,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("DoubleJump"))
         {
-            this.coeff -= doubleJumpCoefficient;
+            isDoubleJumpActive = false;
         }
-        // player triggers the rock fall
         if (collision.tag == "RockFall")
         {
             // get trigger's parent object -> get first child -> increase gravity
