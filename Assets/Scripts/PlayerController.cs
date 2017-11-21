@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     private bool isRespawning;
     private Vector3 respawnPosition;
     private float playerStateSaveCount;
+    public enum GameState {Play, Pause};
+    public static GameState gameState;
 
     void Awake()
     {
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
         GameOverMenu.SetActive(false);
 
         storedPlayerStates = new List<PlayerState>();
+        gameState = GameState.Play;
     }
     void Start()
     {
@@ -57,26 +60,13 @@ public class PlayerController : MonoBehaviour
     
     void FixedUpdate()
     {
-        if(!isRespawning){          
-            if(Input.GetKey(KeyCode.Space) && (isGrounded || isDoubleJumpActive))
-                Jump();
-
-            if(Input.GetKeyDown(KeyCode.R) && !string.IsNullOrEmpty(powerUp))
-                ConsumePowerUp();
-
+        if (gameState == GameState.Play) {
             if (isBoostActive)
                 Boost();
 
-            HandlePhysics();      
-        }
-        else{
-            MovePlayerToRespawnPosition();
-
-            if(IsPositionCloseEnough(transform.position, respawnPosition, 0.1f))
-                StopRespawning();
+            HandlePhysics(); 
         }
     }
-
 
     private void ConsumePowerUp()
     {
@@ -84,7 +74,7 @@ public class PlayerController : MonoBehaviour
             RespawnPlayer();
             powerUp = null;
         }
-    }
+    }  
 
     private void RespawnPlayer()
     {
@@ -144,11 +134,32 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        StorePlayerState();
-        TransformCamera();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ToggleGameState();
 
-        if (HasFallenDown())
-            InvokeDeath();
+        if (gameState == GameState.Play) {
+            if(!isRespawning){          
+                if(Input.GetKey(KeyCode.Space) && (isGrounded || isDoubleJumpActive))
+                    Jump();
+
+                if(Input.GetKeyDown(KeyCode.R) && !string.IsNullOrEmpty(powerUp))
+                    ConsumePowerUp();
+    
+            }
+            else{
+                MovePlayerToRespawnPosition();
+
+                if(IsPositionCloseEnough(transform.position, respawnPosition, 0.1f))
+                    StopRespawning();
+            }
+
+            
+            StorePlayerState();
+            TransformCamera();
+
+            if (HasFallenDown())
+                InvokeDeath();
+        }
     }
 
     void StorePlayerState(){
@@ -159,7 +170,7 @@ public class PlayerController : MonoBehaviour
             var playerState = ScriptableObject.CreateInstance<PlayerState>();
             playerState.Init(rb.velocity, rb.position, isGrounded);
             storedPlayerStates.Add(playerState);
-        } 
+        }
     }
 
     private void TransformCamera(){
@@ -300,6 +311,19 @@ public class PlayerController : MonoBehaviour
         {
             // get trigger's parent object -> get first child -> increase gravity
             collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
+        }
+    }
+
+    private void ToggleGameState() {
+        if (gameState == GameState.Play) {
+            gameState = GameState.Pause;
+            animator.enabled = false;
+            rb.velocity = Vector3.zero;
+            rb.isKinematic = true;
+        } else {
+            gameState = GameState.Play;
+            animator.enabled = true;
+            rb.isKinematic = false;
         }
     }
 }

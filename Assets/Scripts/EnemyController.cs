@@ -5,26 +5,30 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
 
 	public float speed = 4.0f;
+	public enum Direction {Left, Right};
+ 	public Direction direction = Direction.Left;
 	private Rigidbody2D rb;
-	private int[] directions = new int[] {-1, 1};
-	private int direction;
-	
+	private int directionValue;
+
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
-		// get initial directionusing random function
-		direction = directions[Random.Range( 0, 1 )];
-	}
-	
-	void Update () {
-		// update object's velocity per frame
-		rb.velocity = new Vector3(direction * speed, 0, 0);
+		if (direction == Direction.Left) 
+			directionValue = -1;
+		else if (direction == Direction.Right) 
+			directionValue = 1;
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision)
-    {	
+	void FixedUpdate () {
+		if (PlayerController.gameState == PlayerController.GameState.Play) {
+			rb.velocity = new Vector3(directionValue * speed, 0, 0);
+		} else {
+			rb.velocity = Vector3.zero;
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision) {	
 		// change direction on collision with enemy limits
-        if (collision.transform.CompareTag("EnemyLimit")) {
-			direction = -1 * direction;
-        }
+        if (collision.transform.CompareTag("EnemyLimit"))
+			directionValue = -1 * directionValue;
 	}
 }
