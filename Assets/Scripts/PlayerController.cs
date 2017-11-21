@@ -60,12 +60,7 @@ public class PlayerController : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (gameState == GameState.Play) {
-            if (isBoostActive)
-                Boost();
 
-            HandlePhysics(); 
-        }
     }
 
     private void ConsumePowerUp()
@@ -124,9 +119,11 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         transform.position = Vector3.Lerp(transform.position, respawnPosition, 2f * Time.deltaTime);
     }
+
     private bool IsPositionCloseEnough(Vector3 src, Vector3 dest, float threshold){
         return Vector3.Distance(src, dest) < threshold;
     }
+
     private void StopRespawning(){
         isRespawning = false;
         GetComponent<BoxCollider2D>().enabled = true;
@@ -144,6 +141,12 @@ public class PlayerController : MonoBehaviour
 
                 if(Input.GetKeyDown(KeyCode.R) && !string.IsNullOrEmpty(powerUp))
                     ConsumePowerUp();
+
+                if (isBoostActive)
+                    Boost();
+
+                HandlePhysics(); 
+        
     
             }
             else{
@@ -152,7 +155,6 @@ public class PlayerController : MonoBehaviour
                 if(IsPositionCloseEnough(transform.position, respawnPosition, 0.1f))
                     StopRespawning();
             }
-
             
             StorePlayerState();
             TransformCamera();
