@@ -814,6 +814,11 @@ Prefab:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114974884563046270, guid: e0baafa42e6cb264e992a5668f031d16,
+        type: 2}
+      propertyPath: direction
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e0baafa42e6cb264e992a5668f031d16, type: 2}
   m_IsPrefabParent: 0
@@ -2535,3 +2540,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 1
   amplitude: 3
+  direction: 0

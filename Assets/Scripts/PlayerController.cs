@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     public float minimumYPosition;
     private Animator animator;
     private bool isGrounded;
+    public enum GameState {Play, Pause};
+    public static GameState gameState;
 
     void Awake()
     {
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
         GameOverMenu.SetActive(false);
+        gameState = GameState.Play;
     }
     void Start()
     {
@@ -48,14 +51,13 @@ public class PlayerController : MonoBehaviour
     }
     
     void FixedUpdate()
-    {
-        if(Input.GetKey(KeyCode.Space) && isGrounded)
-            Jump();
-
-        if (isBoostActive)
+    {   
+        if (gameState == GameState.Play) {
+            if (isBoostActive)
             Boost();
 
-        HandlePhysics();      
+            HandlePhysics(); 
+        }
     }
 
     private void Jump(){
@@ -94,12 +96,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        TransformCamera();
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            ToggleGameState();
 
-        if (HasFallenDown())
-            InvokeDeath();        
+        if (gameState == GameState.Play) {
+            if (Input.GetKey(KeyCode.Space) && isGrounded)
+                Jump();
+
+            TransformCamera();
+
+            if (HasFallenDown())
+                InvokeDeath(); 
+        }
     }
 
     private void TransformCamera(){
@@ -240,6 +249,18 @@ public class PlayerController : MonoBehaviour
             // get trigger's parent object -> get first child -> increase gravity
             collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
         }
+    }
 
+    private void ToggleGameState() {
+        if (gameState == GameState.Play) {
+            gameState = GameState.Pause;
+            animator.enabled = false;
+            rb.velocity = Vector3.zero;
+            rb.isKinematic = true;
+        } else {
+            gameState = GameState.Play;
+            animator.enabled = true;
+            rb.isKinematic = false;
+        }
     }
 }
