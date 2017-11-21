@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,6 +34,11 @@ public class PlayerController : MonoBehaviour
     public float minimumYPosition;
     private Animator animator;
     private bool isGrounded, isDoubleJumpActive;
+    private List<PlayerState> storedPlayerStates;
+    private string powerUp;
+    private bool isRespawning;
+    private Vector3 respawnPosition;
+    private float playerStateSaveCount;
 
     void Awake()
     {
@@ -39,6 +46,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
         GameOverMenu.SetActive(false);
+
+        storedPlayerStates = new List<PlayerState>();
     }
     void Start()
     {
@@ -48,14 +57,42 @@ public class PlayerController : MonoBehaviour
     
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.Space) && (isGrounded || isDoubleJumpActive))
-            Jump();
+        if(!isRespawning){          
+            if(Input.GetKey(KeyCode.Space) && (isGrounded || isDoubleJumpActive))
+                Jump();
 
-        if (isBoostActive)
-            Boost();
+            if(Input.GetKeyDown(KeyCode.R) && !string.IsNullOrEmpty(powerUp))
+                ConsumePowerUp();
 
-        HandlePhysics();      
+            if (isBoostActive)
+                Boost();
+
+            HandlePhysics();      
+        }
+        else{
+            MovePlayerToRespawnPosition();
+
+            if(IsPositionCloseEnough(transform.position, respawnPosition, 0.1f))
+                StopRespawning();
+        }
     }
+
+
+    private void ConsumePowerUp()
+    {
+        if(powerUp.Equals("ExtraLife")){
+            RespawnPlayer();
+            powerUp = null;
+        }
+    }
+
+    private void RespawnPlayer()
+    {
+        isRespawning = true;
+        var latestStates = storedPlayerStates.Skip(storedPlayerStates.Count - 10);
+        respawnPosition = latestStates.First().Position;
+        GetComponent<BoxCollider2D>().enabled = false;
+    }    
 
     private void Jump(){
         rb.velocity = Vector2.up * jumpVelocity;
@@ -93,12 +130,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void MovePlayerToRespawnPosition(){
+        rb.velocity = Vector2.zero;
+        transform.position = Vector3.Lerp(transform.position, respawnPosition, 2f * Time.deltaTime);
+    }
+    private bool IsPositionCloseEnough(Vector3 src, Vector3 dest, float threshold){
+        return Vector3.Distance(src, dest) < threshold;
+    }
+    private void StopRespawning(){
+        isRespawning = false;
+        GetComponent<BoxCollider2D>().enabled = true;
+    }
+
     void Update()
     {
+        StorePlayerState();
         TransformCamera();
 
         if (HasFallenDown())
-            InvokeDeath();        
+            InvokeDeath();
+    }
+
+    void StorePlayerState(){
+        if (playerStateSaveCount < 0.25f) {
+            playerStateSaveCount += Time.deltaTime;
+        } else {
+            playerStateSaveCount = 0;
+            var playerState = ScriptableObject.CreateInstance<PlayerState>();
+            playerState.Init(rb.velocity, rb.position, isGrounded);
+            storedPlayerStates.Add(playerState);
+        } 
     }
 
     private void TransformCamera(){
@@ -196,7 +257,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsGrounded", false);
         }
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "BoostPoint")
@@ -218,11 +279,15 @@ public class PlayerController : MonoBehaviour
         {
             isDoubleJumpActive = true;
         }
+        else if (collision.CompareTag("ExtraLife")){
+            powerUp = "ExtraLife";
+        }
     }
 
     private void InvokeDeath(){
         GameOverMenu.SetActive(true);
         this.gameObject.SetActive(false);
+        Debug.Log(storedPlayerStates.Count);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -236,6 +301,5 @@ public class PlayerController : MonoBehaviour
             // get trigger's parent object -> get first child -> increase gravity
             collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
         }
-
     }
 }
