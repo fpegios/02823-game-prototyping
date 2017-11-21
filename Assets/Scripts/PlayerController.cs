@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private float playerStateSaveCount;
     public enum GameState {Play, Pause};
     public static GameState gameState;
+    public GameObject shield;
 
     void Awake()
     {
@@ -294,6 +295,11 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.CompareTag("ExtraLife")){
             powerUp = "ExtraLife";
+        }
+        else if (collision.CompareTag("ShieldGenerator"))
+        {
+            shield.SetActive(true);
+            Destroy(collision.gameObject);
         }
     }
 

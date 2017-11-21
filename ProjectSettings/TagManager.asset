@@ -18,6 +18,8 @@ TagManager:
   - MovingEnemy
   - Mine
   - ExtraLife
+  - Shield
+  - ShieldGenerator
   layers:
   - Default
   - TransparentFX
