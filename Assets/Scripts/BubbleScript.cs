@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldProtection : MonoBehaviour {
+public class BubbleScript : MonoBehaviour {
 
     private float count = 0f;
 

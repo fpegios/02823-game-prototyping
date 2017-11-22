@@ -17,9 +17,10 @@ TagManager:
   - EnemyLimit
   - MovingEnemy
   - Mine
-  - ExtraLife
   - Shield
   - ShieldGenerator
+  - Rewind
+  - Bubble
   layers:
   - Default
   - TransparentFX

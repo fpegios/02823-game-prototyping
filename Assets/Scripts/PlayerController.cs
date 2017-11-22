@@ -41,7 +41,8 @@ public class PlayerController : MonoBehaviour
     private float playerStateSaveCount;
     public enum GameState {Play, Pause};
     public static GameState gameState;
-    public GameObject shield;
+    private GameObject bubble;
+    private Inventory inventory;
 
     void Awake()
     {
@@ -50,11 +51,18 @@ public class PlayerController : MonoBehaviour
         GameOverMenu = GameObject.Find("GameOverMenu");
         GameOverMenu.SetActive(false);
 
+        inventory = GameObject.FindObjectOfType<Inventory>();
+
+        bubble = GameObject.Find("Bubble");
+        if(!bubble)
+            throw new UnityException("Bubble could not be found, ensure that it exists in the scene.");
+
         storedPlayerStates = new List<PlayerState>();
         gameState = GameState.Play;
     }
     void Start()
     {
+        bubble.SetActive(false);
         initialYCameraValue = camera.transform.position.y;
         tempCamera = camera;
     }
@@ -66,10 +74,15 @@ public class PlayerController : MonoBehaviour
 
     private void ConsumePowerUp()
     {
-        if(powerUp.Equals("ExtraLife")){
+        if(powerUp.Equals("Rewind")){
             RespawnPlayer();
-            powerUp = null;
         }
+        if(powerUp.Equals("Shield")){
+            bubble.SetActive(true);
+        }
+
+        powerUp = null;
+        inventory.ConsumePowerUp();
     }  
 
     private void RespawnPlayer()
@@ -293,12 +306,17 @@ public class PlayerController : MonoBehaviour
         {
             isDoubleJumpActive = true;
         }
-        else if (collision.CompareTag("ExtraLife")){
-            powerUp = "ExtraLife";
+        else if (collision.CompareTag("Rewind")){
+            var sprite = collision.gameObject.GetComponent<SpriteRenderer>().sprite;
+            inventory.AddPowerUp(sprite);
+            powerUp = "Rewind";
+            Destroy(collision.gameObject);
         }
-        else if (collision.CompareTag("ShieldGenerator"))
+        else if (collision.CompareTag("Shield"))
         {
-            shield.SetActive(true);
+            var sprite = collision.gameObject.GetComponent<SpriteRenderer>().sprite;
+            inventory.AddPowerUp(sprite);
+            powerUp = "Shield";
             Destroy(collision.gameObject);
         }
     }
