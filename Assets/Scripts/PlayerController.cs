@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private Camera tempCamera;
     private bool isDropping;
     private bool onTrampoline;
-    private GameObject GameOverMenu;
+    private GameObject GameOverMenu, Pause;
     private float initialYCameraValue;
     private bool firstTime = true;
     public float minimumYPosition;
@@ -49,7 +49,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
+        Pause = GameObject.Find("Pause");
         GameOverMenu.SetActive(false);
+        Pause.SetActive(false);
 
         inventory = GameObject.FindObjectOfType<Inventory>();
 
@@ -344,11 +346,13 @@ public class PlayerController : MonoBehaviour
     private void ToggleGameState() {
         if (gameState == GameState.Play) {
             gameState = GameState.Pause;
+            Pause.SetActive(true);
             animator.enabled = false;
             rb.velocity = Vector2.zero;
             rb.isKinematic = true;
         } else if (gameState == GameState.Pause){
             gameState = GameState.Play;
+            Pause.SetActive(false);
             animator.enabled = true;
             rb.isKinematic = false;
         }
