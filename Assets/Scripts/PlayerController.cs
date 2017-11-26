@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private bool isRespawning;
     private Vector3 respawnPosition;
     private float playerStateSaveCount;
-    public enum GameState {Play, Pause};
+    public enum GameState {Play, Pause, Death};
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
@@ -322,6 +322,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void InvokeDeath(){
+        gameState = GameState.Death;
         GameOverMenu.SetActive(true);
         this.gameObject.SetActive(false);
         Debug.Log(storedPlayerStates.Count);
@@ -344,9 +345,9 @@ public class PlayerController : MonoBehaviour
         if (gameState == GameState.Play) {
             gameState = GameState.Pause;
             animator.enabled = false;
-            rb.velocity = Vector3.zero;
+            rb.velocity = Vector2.zero;
             rb.isKinematic = true;
-        } else {
+        } else if (gameState == GameState.Pause){
             gameState = GameState.Play;
             animator.enabled = true;
             rb.isKinematic = false;
