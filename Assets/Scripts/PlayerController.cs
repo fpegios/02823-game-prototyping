@@ -349,12 +349,16 @@ public class PlayerController : MonoBehaviour
             Pause.SetActive(true);
             animator.enabled = false;
             rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+            if (isClimbing) {
+                rb.bodyType = RigidbodyType2D.Static;
+            } else {
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
         } else if (gameState == GameState.Pause){
             gameState = GameState.Play;
             Pause.SetActive(false);
             animator.enabled = true;
-            rb.isKinematic = false;
+            rb.bodyType = RigidbodyType2D.Dynamic;
         }
     }
 }
