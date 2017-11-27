@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private Camera tempCamera;
     private bool isDropping;
     private bool onTrampoline;
-    private GameObject GameOverMenu;
+    private GameObject GameOverMenu, Pause;
     private float initialYCameraValue;
     private bool firstTime = true;
     public float minimumYPosition;
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     private bool isRespawning;
     private Vector3 respawnPosition;
     private float playerStateSaveCount;
-    public enum GameState {Play, Pause};
+    public enum GameState {Play, Pause, Death};
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
@@ -49,7 +49,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
+        Pause = GameObject.Find("Pause");
         GameOverMenu.SetActive(false);
+        Pause.SetActive(false);
 
         inventory = GameObject.FindObjectOfType<Inventory>();
 
@@ -322,6 +324,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void InvokeDeath(){
+        gameState = GameState.Death;
         GameOverMenu.SetActive(true);
         this.gameObject.SetActive(false);
         Debug.Log(storedPlayerStates.Count);
@@ -343,13 +346,19 @@ public class PlayerController : MonoBehaviour
     private void ToggleGameState() {
         if (gameState == GameState.Play) {
             gameState = GameState.Pause;
+            Pause.SetActive(true);
             animator.enabled = false;
-            rb.velocity = Vector3.zero;
-            rb.isKinematic = true;
-        } else {
+            rb.velocity = Vector2.zero;
+            if (isClimbing) {
+                rb.bodyType = RigidbodyType2D.Static;
+            } else {
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
+        } else if (gameState == GameState.Pause){
             gameState = GameState.Play;
+            Pause.SetActive(false);
             animator.enabled = true;
-            rb.isKinematic = false;
+            rb.bodyType = RigidbodyType2D.Dynamic;
         }
     }
 }
