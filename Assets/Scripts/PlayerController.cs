@@ -43,15 +43,23 @@ public class PlayerController : MonoBehaviour
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
+    private AudioSource[] aSources;
+    private AudioSource gameOverAudio, gameThemeAudio, jumpAudio;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
-        Pause = GameObject.Find("Pause");
         GameOverMenu.SetActive(false);
+        Pause = GameObject.Find("Pause");
         Pause.SetActive(false);
+
+        aSources = camera.GetComponents<AudioSource>();
+        gameOverAudio = aSources[0];
+        gameThemeAudio = aSources[1];
+        jumpAudio = aSources[2];
+
 
         inventory = GameObject.FindObjectOfType<Inventory>();
 
@@ -61,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
         storedPlayerStates = new List<PlayerState>();
         gameState = GameState.Play;
+        gameThemeAudio.Play();
     }
     void Start()
     {
@@ -96,6 +105,7 @@ public class PlayerController : MonoBehaviour
     }    
 
     private void Jump(){
+        jumpAudio.Play();
         rb.velocity = Vector2.up * jumpVelocity;
         isGrounded = false;
     }
@@ -327,6 +337,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void InvokeDeath(){
+        gameThemeAudio.Stop();
+        gameOverAudio.Play();
         gameState = GameState.Death;
         GameOverMenu.SetActive(true);
         this.gameObject.SetActive(false);
