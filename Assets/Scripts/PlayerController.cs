@@ -6,6 +6,8 @@ using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public event Action OnHitGround;
     // Movement variables
     [Range(1,30)]
     public float runSpeed;
@@ -247,16 +249,22 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             onTrampoline = false;
             animator.SetBool("IsGrounded", true);
+            if (OnHitGround != null)
+                OnHitGround ();
         }
         else if(collision.transform.CompareTag("Climb")){
             isClimbing = true;
             animator.SetBool("IsGrounded", true);
+            if (OnHitGround != null)
+                OnHitGround ();
         }
         else if (collision.transform.CompareTag("Trampoline"))
         {
             rb.AddForce(new Vector2(0, jumpSpeed + coeff + 20), ForceMode2D.Impulse);
             onTrampoline = true;
             animator.SetBool("IsGrounded", true);
+            if (OnHitGround != null)
+                OnHitGround ();
         }
         else if (collision.transform.CompareTag("Rock"))
         {
