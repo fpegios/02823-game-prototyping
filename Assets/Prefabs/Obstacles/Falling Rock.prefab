@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 212273397053417536}
   - component: {fileID: 50709171781486284}
   - component: {fileID: 61121506551227942}
+  - component: {fileID: 114681862319342488}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Rock
@@ -172,6 +173,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.0991518, y: 2.4722023}
   m_EdgeRadius: 0
+--- !u!114 &114681862319342488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1912293397890218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a68eed87e3f2644ab0b45ebe5214bc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallingRockSound: {fileID: 8300000, guid: b60b8247b2539fa46bb9acea1eadcfc6, type: 3}
 --- !u!212 &212273397053417536
 SpriteRenderer:
   m_ObjectHideFlags: 1

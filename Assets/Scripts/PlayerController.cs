@@ -43,8 +43,11 @@ public class PlayerController : MonoBehaviour
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
-    private AudioSource[] aSources;
-    private AudioSource gameOverAudio, gameThemeAudio, jumpAudio;
+    public AudioClip jumpSound;
+    public AudioClip gameOverSound;
+    public AudioClip groundSound;
+    public AudioClip mineSound;
+    public AudioClip gameLevelMusic;
 
     void Awake()
     {
@@ -55,12 +58,6 @@ public class PlayerController : MonoBehaviour
         Pause = GameObject.Find("Pause");
         Pause.SetActive(false);
 
-        aSources = camera.GetComponents<AudioSource>();
-        gameOverAudio = aSources[0];
-        gameThemeAudio = aSources[1];
-        jumpAudio = aSources[2];
-
-
         inventory = GameObject.FindObjectOfType<Inventory>();
 
         bubble = GameObject.Find("Bubble");
@@ -69,13 +66,13 @@ public class PlayerController : MonoBehaviour
 
         storedPlayerStates = new List<PlayerState>();
         gameState = GameState.Play;
-        gameThemeAudio.Play();
     }
     void Start()
     {
         bubble.SetActive(false);
         initialYCameraValue = camera.transform.position.y;
         tempCamera = camera;
+        SoundManager.instance.PlayMusic(gameLevelMusic);
     }
     
     void FixedUpdate()
@@ -105,7 +102,7 @@ public class PlayerController : MonoBehaviour
     }    
 
     private void Jump(){
-        jumpAudio.Play();
+        SoundManager.instance.PlayEfx(jumpSound);
         rb.velocity = Vector2.up * jumpVelocity;
         isGrounded = false;
     }
@@ -246,7 +243,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Drop")))
-        {
+        {   
             isGrounded = true;
             onTrampoline = false;
             animator.SetBool("IsGrounded", true);
@@ -261,9 +258,13 @@ public class PlayerController : MonoBehaviour
             onTrampoline = true;
             animator.SetBool("IsGrounded", true);
         }
-        else if (collision.transform.CompareTag("Rock") || collision.transform.CompareTag("Mine"))
+        else if (collision.transform.CompareTag("Rock"))
         {
             InvokeDeath();
+        }
+        else if (collision.transform.CompareTag("Mine")) {
+            InvokeDeath();
+            SoundManager.instance.PlayEfx(mineSound);
         }
         else if (collision.transform.CompareTag("MovingEnemy"))
         {
@@ -337,8 +338,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void InvokeDeath(){
-        gameThemeAudio.Stop();
-        gameOverAudio.Play();
+        SoundManager.instance.PlayEfx(gameOverSound);
+        SoundManager.instance.StopMusic(gameLevelMusic);
         gameState = GameState.Death;
         GameOverMenu.SetActive(true);
         this.gameObject.SetActive(false);
