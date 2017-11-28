@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviour
             onTrampoline = true;
             animator.SetBool("IsGrounded", true);
         }
-        else if (collision.transform.CompareTag("Rock"))
+        else if (collision.transform.CompareTag("Rock") || collision.transform.CompareTag("Mine"))
         {
             InvokeDeath();
         }
