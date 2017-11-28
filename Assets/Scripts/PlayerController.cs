@@ -43,14 +43,19 @@ public class PlayerController : MonoBehaviour
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
+    public AudioClip jumpSound;
+    public AudioClip gameOverSound;
+    public AudioClip groundSound;
+    public AudioClip mineSound;
+    public AudioClip gameLevelMusic;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
-        Pause = GameObject.Find("Pause");
         GameOverMenu.SetActive(false);
+        Pause = GameObject.Find("Pause");
         Pause.SetActive(false);
 
         inventory = GameObject.FindObjectOfType<Inventory>();
@@ -67,6 +72,7 @@ public class PlayerController : MonoBehaviour
         bubble.SetActive(false);
         initialYCameraValue = camera.transform.position.y;
         tempCamera = camera;
+        SoundManager.instance.PlayMusic(gameLevelMusic);
     }
     
     void FixedUpdate()
@@ -96,6 +102,7 @@ public class PlayerController : MonoBehaviour
     }    
 
     private void Jump(){
+        SoundManager.instance.PlayEfx(jumpSound);
         rb.velocity = Vector2.up * jumpVelocity;
         isGrounded = false;
     }
@@ -236,7 +243,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Drop")))
-        {
+        {   
             isGrounded = true;
             onTrampoline = false;
             animator.SetBool("IsGrounded", true);
@@ -251,9 +258,13 @@ public class PlayerController : MonoBehaviour
             onTrampoline = true;
             animator.SetBool("IsGrounded", true);
         }
-        else if (collision.transform.CompareTag("Rock") || collision.transform.CompareTag("Mine"))
+        else if (collision.transform.CompareTag("Rock"))
         {
             InvokeDeath();
+        }
+        else if (collision.transform.CompareTag("Mine")) {
+            InvokeDeath();
+            SoundManager.instance.PlayEfx(mineSound);
         }
         else if (collision.transform.CompareTag("MovingEnemy"))
         {
@@ -327,6 +338,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void InvokeDeath(){
+        SoundManager.instance.PlayEfx(gameOverSound);
+        SoundManager.instance.StopMusic(gameLevelMusic);
         gameState = GameState.Death;
         GameOverMenu.SetActive(true);
         this.gameObject.SetActive(false);
