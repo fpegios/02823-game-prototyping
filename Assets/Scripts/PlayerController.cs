@@ -253,13 +253,16 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.transform.CompareTag("Rock"))
         {
-            // make the Rock static to avoid any movement due to player's velocity
-            collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            InvokeDeath();
         }
-        else if (collision.transform.CompareTag("MovingEnemy") && transform.position.y > collision.gameObject.transform.position.y)
+        else if (collision.transform.CompareTag("MovingEnemy"))
         {
-            Destroy(collision.gameObject);
-            rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+            if (transform.position.y > collision.gameObject.transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y) {
+                Destroy(collision.gameObject);
+                rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+            } else {
+                InvokeDeath();
+            }
         }
     }
 

@@ -21,6 +21,7 @@ TagManager:
   - ShieldGenerator
   - Rewind
   - Bubble
+  - ExtraLife
   layers:
   - Default
   - TransparentFX
