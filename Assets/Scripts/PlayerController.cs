@@ -7,6 +7,7 @@ using System.Linq;
 public class PlayerController : MonoBehaviour
 {
 
+    public delegate void Action();
     public event Action OnHitGround;
     // Movement variables
     [Range(1,30)]
@@ -45,9 +46,7 @@ public class PlayerController : MonoBehaviour
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
-    public AudioClip jumpSound;
-    public AudioClip gameOverSound;
-    public AudioClip groundSound;
+    public AudioClip jumpSound, groundSound, gameOverSound, destroyEnemySound;
     public AudioClip mineSound;
     public AudioClip gameLevelMusic;
 
@@ -82,6 +81,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void OnEnable (){
+        OnHitGround += playGroundSound;
+    }
+
+    void OnDisable(){
+        OnHitGround -= playGroundSound;
+    }
+
     private void ConsumePowerUp()
     {
         if(powerUp.Equals("Rewind")){
@@ -104,7 +111,7 @@ public class PlayerController : MonoBehaviour
     }    
 
     private void Jump(){
-        SoundManager.instance.PlayEfx(jumpSound);
+        SoundManager.instance.PlayUserSfx_1(jumpSound);
         rb.velocity = Vector2.up * jumpVelocity;
         isGrounded = false;
     }
@@ -254,17 +261,21 @@ public class PlayerController : MonoBehaviour
         }
         else if(collision.transform.CompareTag("Climb")){
             isClimbing = true;
+            if (!isGrounded) {
+                if (OnHitGround != null)
+                    OnHitGround ();
+            }
             animator.SetBool("IsGrounded", true);
-            if (OnHitGround != null)
-                OnHitGround ();
         }
         else if (collision.transform.CompareTag("Trampoline"))
         {
             rb.AddForce(new Vector2(0, jumpSpeed + coeff + 20), ForceMode2D.Impulse);
             onTrampoline = true;
+            if (!isGrounded) {
+                if (OnHitGround != null)
+                    OnHitGround ();
+            }
             animator.SetBool("IsGrounded", true);
-            if (OnHitGround != null)
-                OnHitGround ();
         }
         else if (collision.transform.CompareTag("Rock"))
         {
@@ -272,11 +283,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.transform.CompareTag("Mine")) {
             InvokeDeath();
-            SoundManager.instance.PlayEfx(mineSound);
+            SoundManager.instance.PlayCollisionSfx(mineSound);
         }
         else if (collision.transform.CompareTag("MovingEnemy"))
         {
             if (transform.position.y > collision.gameObject.transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y) {
+                SoundManager.instance.PlayCollisionSfx(destroyEnemySound);
                 Destroy(collision.gameObject);
                 rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
             } else {
@@ -346,7 +358,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void InvokeDeath(){
-        SoundManager.instance.PlayEfx(gameOverSound);
+        SoundManager.instance.PlayUserSfx_2(gameOverSound);
         SoundManager.instance.StopMusic(gameLevelMusic);
         gameState = GameState.Death;
         GameOverMenu.SetActive(true);
@@ -365,6 +377,10 @@ public class PlayerController : MonoBehaviour
             // get trigger's parent object -> get first child -> increase gravity
             collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
         }
+    }
+
+    private void playGroundSound() {
+        SoundManager.instance.PlayUserSfx_2(groundSound);
     }
 
     private void ToggleGameState() {
