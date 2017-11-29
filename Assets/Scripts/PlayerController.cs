@@ -46,9 +46,7 @@ public class PlayerController : MonoBehaviour
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
-    public AudioClip jumpSound;
-    public AudioClip gameOverSound;
-    public AudioClip groundSound;
+    public AudioClip jumpSound, groundSound, gameOverSound, destroyEnemySound;
     public AudioClip mineSound;
     public AudioClip gameLevelMusic;
 
@@ -290,6 +288,7 @@ public class PlayerController : MonoBehaviour
         else if (collision.transform.CompareTag("MovingEnemy"))
         {
             if (transform.position.y > collision.gameObject.transform.position.y + collision.gameObject.GetComponent<SpriteRenderer>().bounds.size.y) {
+                SoundManager.instance.PlayCollisionSfx(destroyEnemySound);
                 Destroy(collision.gameObject);
                 rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
             } else {
