@@ -25,6 +25,11 @@ public class BubbleScript : MonoBehaviour {
         }
 	}
 
+    void OnEnable()
+    {
+        this.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("MovingEnemy") || other.transform.CompareTag("Rock"))
