@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip jumpSound, groundSound, gameOverSound, destroyEnemySound;
     public AudioClip mineSound;
     public AudioClip gameLevelMusic;
+    public float samplingTime;
 
     void Awake()
     {
@@ -122,10 +123,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void HandleJumpPhysics(){
-        if(rb.velocity.y < 0 && !isClimbing){
+        if(rb.velocity.y < 0) {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1 ) * Time.deltaTime;
         }
-        else if(rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space) && !isClimbing){
+        else if(rb.velocity.y > 0 && !Input.GetKey(KeyCode.Space)){
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         }
     }
@@ -167,11 +168,11 @@ public class PlayerController : MonoBehaviour
             ToggleGameState();
 
         if (gameState == GameState.Play) {
-            if(!isRespawning){          
-                if(Input.GetKey(KeyCode.Space) && (isGrounded || isDoubleJumpActive))
+            if(!isRespawning){
+                if((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) && (isGrounded || isDoubleJumpActive))
                     Jump();
 
-                if(Input.GetKeyDown(KeyCode.R) && !string.IsNullOrEmpty(powerUp))
+                if((Input.GetKeyDown(KeyCode.R) || Input.GetMouseButtonDown(1)) && !string.IsNullOrEmpty(powerUp))
                     ConsumePowerUp();
 
                 if (isBoostActive)
@@ -197,13 +198,16 @@ public class PlayerController : MonoBehaviour
     }
 
     void StorePlayerState(){
-        if (playerStateSaveCount < 0.25f) {
+        if (playerStateSaveCount < samplingTime) {
             playerStateSaveCount += Time.deltaTime;
         } else {
-            playerStateSaveCount = 0;
-            var playerState = ScriptableObject.CreateInstance<PlayerState>();
-            playerState.Init(rb.velocity, rb.position, isGrounded);
-            storedPlayerStates.Add(playerState);
+            if (isGrounded)
+            {
+                playerStateSaveCount = 0;
+                var playerState = ScriptableObject.CreateInstance<PlayerState>();
+                playerState.Init(rb.velocity, rb.position, isGrounded);
+                storedPlayerStates.Add(playerState);
+            }
         }
     }
 
@@ -252,7 +256,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((collision.transform.CompareTag("Ground") || collision.transform.CompareTag("Drop")))
-        {   
+        {
             isGrounded = true;
             onTrampoline = false;
             animator.SetBool("IsGrounded", true);
@@ -260,11 +264,11 @@ public class PlayerController : MonoBehaviour
                 OnHitGround ();
         }
         else if(collision.transform.CompareTag("Climb")){
-            isClimbing = true;
-            if (!isGrounded) {
+            isGrounded = true;
+           // if (!isGrounded) {
                 if (OnHitGround != null)
                     OnHitGround ();
-            }
+            //}
             animator.SetBool("IsGrounded", true);
         }
         else if (collision.transform.CompareTag("Trampoline"))
