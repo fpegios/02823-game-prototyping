@@ -151,6 +151,10 @@ Prefab:
       propertyPath: m_Name
       value: Falling Rock (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 4145424129940500, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -18.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
   m_IsPrefabParent: 0
@@ -507,7 +511,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 501.7
+      value: 502.2
       objectReference: {fileID: 0}
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_LocalPosition.y
@@ -868,7 +872,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1211554455212446, guid: 9c375e7d020e8ea4cb92d7bdd3735021, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1317776699748474, guid: 9c375e7d020e8ea4cb92d7bdd3735021, type: 2}
       propertyPath: m_Name
@@ -1133,11 +1137,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4906480003904854, guid: 9c967de61597b4c4697276c57518018d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 156.60722
+      value: 153.9
       objectReference: {fileID: 0}
     - target: {fileID: 4906480003904854, guid: 9c967de61597b4c4697276c57518018d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -15.6
+      value: -12.9
       objectReference: {fileID: 0}
     - target: {fileID: 4906480003904854, guid: 9c967de61597b4c4697276c57518018d, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1677,7 +1681,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4740751953460460, guid: e0baafa42e6cb264e992a5668f031d16, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 155.05
+      value: 150.86
       objectReference: {fileID: 0}
     - target: {fileID: 4740751953460460, guid: e0baafa42e6cb264e992a5668f031d16, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3088,7 +3092,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4179187677191004, guid: 1263c6a3ee359411d9632a55a743527c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -57.58
+      value: -55.5
       objectReference: {fileID: 0}
     - target: {fileID: 4179187677191004, guid: 1263c6a3ee359411d9632a55a743527c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3122,7 +3126,7 @@ Prefab:
     - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
         type: 2}
       propertyPath: runSpeed
-      value: 12
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
         type: 2}
@@ -3858,7 +3862,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 251.2
+      value: 245.9
       objectReference: {fileID: 0}
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3887,6 +3891,10 @@ Prefab:
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145424129940500, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
@@ -4059,7 +4067,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 203.9
+      value: 199.1
       objectReference: {fileID: 0}
     - target: {fileID: 4377090150742324, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4092,6 +4100,10 @@ Prefab:
     - target: {fileID: 1625139000813428, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
       propertyPath: m_Name
       value: Falling Rock (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4145424129940500, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -17.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 90f8bad3a77ba914bb7e5251bf72af6b, type: 2}
