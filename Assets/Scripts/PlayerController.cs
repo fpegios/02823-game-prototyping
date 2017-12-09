@@ -379,7 +379,7 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "RockFall")
         {
             // get trigger's parent object -> get first child -> increase gravity
-            collision.gameObject.transform.parent.gameObject.transform.GetChild(0).GetComponent<Rigidbody2D>().gravityScale = 2.0f;
+            collision.gameObject.transform.parent.GetComponent<Rigidbody2D>().gravityScale = 2.0f;
         }
     }
 

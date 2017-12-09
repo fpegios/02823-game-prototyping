@@ -12,10 +12,15 @@ public class EnemyController : MonoBehaviour {
 
 	void Start () {
 		rb = GetComponent<Rigidbody2D>();
-		if (direction == Direction.Left) 
-			directionValue = -1;
-		else if (direction == Direction.Right) 
-			directionValue = 1;
+        if (direction == Direction.Left)
+        {
+            directionValue = -1;
+
+        }
+        else if (direction == Direction.Right)
+        {
+            directionValue = 1;
+        }
 	}
 
 	void FixedUpdate () {
@@ -26,9 +31,12 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision) {	
-		// change direction on collision with enemy limits
+	private void OnTriggerEnter2D(Collider2D collision) {
+        // change direction on collision with enemy limits
         if (collision.transform.CompareTag("EnemyLimit"))
-			directionValue = -1 * directionValue;
+        {
+            directionValue = -1 * directionValue;
+            GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
+        }
 	}
 }

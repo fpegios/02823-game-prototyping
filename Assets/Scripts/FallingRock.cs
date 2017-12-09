@@ -8,7 +8,10 @@ public class FallingRock : MonoBehaviour {
 
 	private void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.transform.CompareTag("Ground")) {
-			SoundManager.instance.PlayCollisionSfx(fallingRockSound);
+            if (fallingRockSound != null)
+            {
+                SoundManager.instance.PlayCollisionSfx(fallingRockSound);
+            }
 		}
 	}
 }
