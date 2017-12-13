@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
     private void RespawnPlayer()
     {
         isRespawning = true;
-        var latestStates = storedPlayerStates.Skip(storedPlayerStates.Count - 10);
+        var latestStates = storedPlayerStates.Skip(storedPlayerStates.Count - 4);
         respawnPosition = latestStates.First().Position;
         GetComponent<BoxCollider2D>().enabled = false;
     }    
