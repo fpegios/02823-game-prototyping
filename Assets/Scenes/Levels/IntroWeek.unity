@@ -1338,6 +1338,11 @@ Prefab:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[88].y
       value: -1.6899999
       objectReference: {fileID: 0}
+    - target: {fileID: 50648268545445480, guid: ff3ca5218d7e24264a44b932454e2810,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ff3ca5218d7e24264a44b932454e2810, type: 2}
   m_IsPrefabParent: 0
