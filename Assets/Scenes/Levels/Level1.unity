@@ -1206,6 +1206,11 @@ Prefab:
       propertyPath: fallingRockSound
       value: 
       objectReference: {fileID: 8300000, guid: b60b8247b2539fa46bb9acea1eadcfc6, type: 3}
+    - target: {fileID: 50648268545445480, guid: ff3ca5218d7e24264a44b932454e2810,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ff3ca5218d7e24264a44b932454e2810, type: 2}
   m_IsPrefabParent: 0
@@ -1445,6 +1450,11 @@ Prefab:
     - target: {fileID: 4528203157053904, guid: ff3ca5218d7e24264a44b932454e2810, type: 2}
       propertyPath: m_LocalScale.x
       value: 0.9657518
+      objectReference: {fileID: 0}
+    - target: {fileID: 50648268545445480, guid: ff3ca5218d7e24264a44b932454e2810,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ff3ca5218d7e24264a44b932454e2810, type: 2}
@@ -2442,6 +2452,10 @@ Prefab:
       propertyPath: m_LocalPosition.x
       value: 1.76
       objectReference: {fileID: 0}
+    - target: {fileID: 1158788033497038, guid: a286cf775bcf5b24fbffaaa91cb5d26d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a286cf775bcf5b24fbffaaa91cb5d26d, type: 2}
   m_IsPrefabParent: 0
@@ -2741,6 +2755,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 184481666}
     m_Modifications:
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4880449697679948, guid: 0d58ae1238b13a042ac085d50d467260, type: 2}
       propertyPath: m_LocalPosition.x
       value: -212.19553
@@ -2772,6 +2791,61 @@ Prefab:
     - target: {fileID: 4880449697679948, guid: 0d58ae1238b13a042ac085d50d467260, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[3].x
+      value: 746.8334
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[3].y
+      value: -57.418156
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[4].x
+      value: 746.43823
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[4].y
+      value: 30.286503
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[5].x
+      value: 679.295
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[5].y
+      value: 30.963135
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[6].x
+      value: 679.26666
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[6].y
+      value: -1.975441
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[7].x
+      value: 222.74751
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[8].x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 68130587135590988, guid: 0d58ae1238b13a042ac085d50d467260,
+        type: 2}
+      propertyPath: m_Points.Array.data[7].y
+      value: -0.65841675
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d58ae1238b13a042ac085d50d467260, type: 2}
