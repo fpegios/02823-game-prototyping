@@ -9,37 +9,20 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1516976170865244}
+  m_RootGameObject: {fileID: 1311558470577756}
   m_IsPrefabParent: 1
---- !u!1 &1080471596621964
+--- !u!1 &1311558470577756
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4528203157053904}
-  - component: {fileID: 212457296456048232}
-  - component: {fileID: 61914505529116590}
-  m_Layer: 0
-  m_Name: Trigger (1)
-  m_TagString: RockFall
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1516976170865244
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4568063852899864}
-  - component: {fileID: 212930873895083666}
-  - component: {fileID: 50648268545445480}
-  - component: {fileID: 114947609284547950}
-  - component: {fileID: 60321369423912134}
+  - component: {fileID: 4723432804234480}
+  - component: {fileID: 212535111697301020}
+  - component: {fileID: 50313869615232228}
+  - component: {fileID: 114239486581311398}
+  - component: {fileID: 60365922743153524}
   m_Layer: 0
   m_Name: PileOfBooks
   m_TagString: Rock
@@ -47,40 +30,57 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4528203157053904
+--- !u!1 &1583599890170258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4753612684279914}
+  - component: {fileID: 212361105535212590}
+  - component: {fileID: 61576734982120900}
+  m_Layer: 0
+  m_Name: Trigger (1)
+  m_TagString: RockFall
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4723432804234480
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1080471596621964}
+  m_GameObject: {fileID: 1311558470577756}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -32.24, y: -5.05, z: 0}
-  m_LocalScale: {x: 1.40535, y: 17.352629, z: 2.09222}
-  m_Children: []
-  m_Father: {fileID: 4568063852899864}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4568063852899864
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516976170865244}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 130.99, y: -39.82, z: 0}
+  m_LocalPosition: {x: -323.20004, y: 26.282585, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4528203157053904}
+  - {fileID: 4753612684279914}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50648268545445480
+--- !u!4 &4753612684279914
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1583599890170258}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -15.29, y: -15.2, z: 0}
+  m_LocalScale: {x: 1.40535, y: 17.352629, z: 2.09222}
+  m_Children: []
+  m_Father: {fileID: 4723432804234480}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50313869615232228
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516976170865244}
+  m_GameObject: {fileID: 1311558470577756}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -93,13 +93,13 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!60 &60321369423912134
+  m_Constraints: 4
+--- !u!60 &60365922743153524
 PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516976170865244}
+  m_GameObject: {fileID: 1311558470577756}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -204,12 +204,12 @@ PolygonCollider2D:
       - {x: 0.32999998, y: -1.75}
       - {x: 0.59999996, y: -1.73}
       - {x: 1.12, y: -1.6899999}
---- !u!61 &61914505529116590
+--- !u!61 &61576734982120900
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1080471596621964}
+  m_GameObject: {fileID: 1583599890170258}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -229,24 +229,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114947609284547950
+--- !u!114 &114239486581311398
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516976170865244}
+  m_GameObject: {fileID: 1311558470577756}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a68eed87e3f2644ab0b45ebe5214bc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallingRockSound: {fileID: 0}
---- !u!212 &212457296456048232
+  fallingRockSound: {fileID: 8300000, guid: b60b8247b2539fa46bb9acea1eadcfc6, type: 3}
+--- !u!212 &212361105535212590
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1080471596621964}
+  m_GameObject: {fileID: 1583599890170258}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -283,12 +283,12 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!212 &212930873895083666
+--- !u!212 &212535111697301020
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1516976170865244}
+  m_GameObject: {fileID: 1311558470577756}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
