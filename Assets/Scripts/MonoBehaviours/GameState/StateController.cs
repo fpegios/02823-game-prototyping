@@ -8,6 +8,8 @@ public class StateController : MonoBehaviour {
 	public static StateController instance;
 	public Level currentLevel;
 
+	public bool HasCompletedIntro {get;set;}
+
 	public List<Level> Levels{
 		get; private set;
 	}
@@ -19,7 +21,8 @@ public class StateController : MonoBehaviour {
 			DontDestroyOnLoad(gameObject);
 			instance = this;
 			Levels = CreateAndPopulateLevelList();
-			PlayerPositionInMapScene = 1;
+			PlayerPositionInMapScene = 0;
+			HasCompletedIntro = false;
 		}
 		else{
 			Destroy(gameObject);
@@ -43,6 +46,9 @@ public class StateController : MonoBehaviour {
 	}
 
 	private List<Level> CreateAndPopulateLevelList(){
+		Level level0 = ScriptableObject.CreateInstance<Level>();
+		level0.Init(0, false);
+
 		Level level1 = ScriptableObject.CreateInstance<Level>();
 		level1.Init(1, false);
 
@@ -58,7 +64,7 @@ public class StateController : MonoBehaviour {
 		Level level5 = ScriptableObject.CreateInstance<Level>();
 		level5.Init(5, true);
 		
-		return new List<Level>(){level1, level2, level3, level4, level5};
+		return new List<Level>(){level0, level1, level2, level3, level4, level5};
 	}
 
 }

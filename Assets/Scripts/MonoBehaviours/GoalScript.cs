@@ -16,7 +16,8 @@ public class GoalScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		SetLevelCompleteAndFadeToScene(level, mapSceneRelativePath);
+		if(other.transform.gameObject.CompareTag("Player"))
+			SetLevelCompleteAndFadeToScene(level, mapSceneRelativePath);		
 	}
 
 	private void SetLevelCompleteAndFadeToScene(int levelNo, string sceneRelativePath){
