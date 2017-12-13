@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private bool isRespawning;
     private Vector3 respawnPosition;
     private float playerStateSaveCount;
-    public enum GameState {Play, Pause, Death};
+    public enum GameState {Play, Pause, Death, Complete};
     public static GameState gameState;
     private GameObject bubble;
     private Inventory inventory;
@@ -360,7 +360,9 @@ public class PlayerController : MonoBehaviour
             Destroy(collision.gameObject);
         }
         else if (collision.CompareTag("Goal")){
-            rb.velocity = Vector2.zero;
+            gameState = GameState.Complete;
+            FreezePlayer();
+            SoundManager.instance.StopMusic(gameLevelMusic);
         }
     }
 
@@ -394,18 +396,21 @@ public class PlayerController : MonoBehaviour
         if (gameState == GameState.Play) {
             gameState = GameState.Pause;
             Pause.SetActive(true);
-            animator.enabled = false;
-            rb.velocity = Vector2.zero;
-            if (isClimbing) {
-                rb.bodyType = RigidbodyType2D.Static;
-            } else {
-                rb.bodyType = RigidbodyType2D.Kinematic;
-            }
+            FreezePlayer();
         } else if (gameState == GameState.Pause){
             gameState = GameState.Play;
             Pause.SetActive(false);
             animator.enabled = true;
             rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
+    private void FreezePlayer(){
+        animator.enabled = false;
+        rb.velocity = Vector2.zero;
+        if (isClimbing) {
+            rb.bodyType = RigidbodyType2D.Static;
+        } else {
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
     }
 }
