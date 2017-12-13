@@ -21,12 +21,16 @@ public class AudioController : MonoBehaviour {
 		    throw new UnityException("Audio Source could not be found");
 	}
 
+	void Start() {
+		FadeIn();
+	}
+
 	private void FadeIn(){
         audioSource.volume = 0;
         audioSource.Play();
  
         while (audioSource.volume < 1.0f)
-        {
+        {       
             audioSource.volume += startVolume * Time.deltaTime / fadeTime;
         }
  
@@ -34,7 +38,14 @@ public class AudioController : MonoBehaviour {
 	}
 	
 	void FadeOut(){
-		Debug.Log("Fading audio out");
+        float startVolume = audioSource.volume;
+ 
+        while (audioSource.volume > 0) {
+            audioSource.volume -= startVolume * Time.deltaTime / fadeTime;
+         }
+ 
+        audioSource.Stop ();
+        audioSource.volume = startVolume;		
 	}
 
 	void OnEnable()

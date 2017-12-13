@@ -359,6 +359,9 @@ public class PlayerController : MonoBehaviour
             powerUp = "Shield";
             Destroy(collision.gameObject);
         }
+        else if (collision.CompareTag("Goal")){
+            rb.velocity = Vector2.zero;
+        }
     }
 
     private void InvokeDeath(){

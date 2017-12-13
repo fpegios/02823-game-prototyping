@@ -2477,6 +2477,36 @@ Prefab:
       propertyPath: samplingTime
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
+        type: 2}
+      propertyPath: gameLevelMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 2ca9dfc5c87541540b731dc34bfc7bda, type: 3}
+    - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
+        type: 2}
+      propertyPath: jumpSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 43da26b4dda06324786b7929dd870d16, type: 3}
+    - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
+        type: 2}
+      propertyPath: groundSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bd4c045e26f3a74ab12ad755fbf2afc, type: 3}
+    - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
+        type: 2}
+      propertyPath: gameOverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 62ea080414818504dbbcb6fd9908788e, type: 3}
+    - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
+        type: 2}
+      propertyPath: destroyEnemySound
+      value: 
+      objectReference: {fileID: 8300000, guid: 52edecd61eb5fcb408ecea06add03d11, type: 3}
+    - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
+        type: 2}
+      propertyPath: mineSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0dcc5a4cf5d49a44d81515a47c305f0b, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1263c6a3ee359411d9632a55a743527c, type: 2}
   m_IsPrefabParent: 0
