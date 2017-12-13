@@ -6,6 +6,8 @@ public class AudioController : MonoBehaviour {
 
 	public float fadeTime;
 	public float startVolume;
+	[Range(0, 1)]
+	public float maxVolume;
 
 	private AudioSource audioSource;
 
@@ -29,12 +31,12 @@ public class AudioController : MonoBehaviour {
         audioSource.volume = 0;
         audioSource.Play();
  
-        while (audioSource.volume < 1.0f)
+        while (audioSource.volume < maxVolume)
         {       
             audioSource.volume += startVolume * Time.deltaTime / fadeTime;
         }
  
-        audioSource.volume = 1f;	
+        audioSource.volume = maxVolume;	
 	}
 	
 	void FadeOut(){

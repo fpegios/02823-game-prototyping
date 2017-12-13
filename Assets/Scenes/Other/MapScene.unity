@@ -400,6 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeTime: 2
   startVolume: 0.1
+  maxVolume: 0.3
 --- !u!4 &697308228
 Transform:
   m_ObjectHideFlags: 0
@@ -684,7 +685,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ea39ffb8e4825441b9e5368d58a1d00e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f5eb8e7dd295744b6bd76b074ab341a0, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1
