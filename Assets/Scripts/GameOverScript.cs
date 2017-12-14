@@ -30,20 +30,14 @@ public class GameOverScript : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Space)) {	
 			if (currentChoice == GameOverMenu.Restart) {
-				Debug.Log("RESTART THE LEVEL!");
-
 				// hide the game over menu
 				this.gameObject.SetActive(false);
-
 				// get active scene name and reload it
 				Scene activeScene = SceneManager.GetActiveScene();
 				sceneController.FadeAndLoadScene(levelSceneRelativePath + activeScene.name);
 			} else if (currentChoice == GameOverMenu.MainMenu) {
-				Debug.Log("GO TO MAIN MENU!");
-
 				// hide the game over menu and 
 				this.gameObject.SetActive(false);
-				
 				// load map scene
 				sceneController.FadeAndLoadScene(mapSceneRelativePath);
 			}

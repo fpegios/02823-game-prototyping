@@ -16,7 +16,6 @@ public class RepeatingBackground : MonoBehaviour {
 	}
 	
 	void Update () {
-		Debug.Log(PlayerController.respawnPosition);
 		if (!PlayerController.isRespawning) {
 			if (player.transform.position.x - transform.position.x > (groundHorizontalLength)) {
 				RepositionBackground();
