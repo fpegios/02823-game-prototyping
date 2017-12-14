@@ -268,10 +268,8 @@ public class PlayerController : MonoBehaviour
         else if(collision.transform.CompareTag("Climb")){
             isGrounded = true;
             isClimbing = true;
-           // if (!isGrounded) {
-                if (OnHitGround != null)
-                    OnHitGround ();
-            //}
+            if (OnHitGround != null)
+                OnHitGround ();
             animator.SetBool("IsGrounded", true);
         }
         else if (collision.transform.CompareTag("Trampoline"))
@@ -373,9 +371,17 @@ public class PlayerController : MonoBehaviour
         SoundManager.instance.PlayUserSfx_2(gameOverSound);
         SoundManager.instance.StopMusic(gameLevelMusic);
         gameState = GameState.Death;
-        GameOverMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+        StartCoroutine(ShowGameOverMenuWithDelay());        
         Debug.Log(storedPlayerStates.Count);
+    }
+
+    IEnumerator ShowGameOverMenuWithDelay()
+    {   
+        FreezePlayer();
+        Debug.Log(SoundManager.instance.GetUserSfx_2Length(gameOverSound));
+        yield return new WaitForSeconds(SoundManager.instance.GetUserSfx_2Length(gameOverSound) - 2);
+        this.gameObject.SetActive(false);
+        GameOverMenu.SetActive(true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

@@ -38,6 +38,10 @@ public class SoundManager : MonoBehaviour {
 		userSfxSource_2.Stop();
 	}
 
+	public float GetUserSfx_2Length (AudioClip clip) {
+		return clip.length;
+	}
+
 	public void PlayCollisionSfx (AudioClip clip) {
 		collisionSfxSource.clip = clip;
 		collisionSfxSource.Play();
