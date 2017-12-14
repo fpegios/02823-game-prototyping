@@ -378,7 +378,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator ShowGameOverMenuWithDelay()
     {   
         FreezePlayer();
-        Debug.Log(SoundManager.instance.GetUserSfx_2Length(gameOverSound));
         yield return new WaitForSeconds(SoundManager.instance.GetUserSfx_2Length(gameOverSound) - 2);
         this.gameObject.SetActive(false);
         GameOverMenu.SetActive(true);
