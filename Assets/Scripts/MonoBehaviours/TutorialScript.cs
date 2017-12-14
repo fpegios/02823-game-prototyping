@@ -23,15 +23,31 @@ public class TutorialScript : MonoBehaviour {
 			"Tapping SPACE will let you jump only a little",
 			"Now watch out for enemies!",
 			"Press SPACE on the trampoline to jump even higher",
-			"Powerups can be collected. Consume with 'R'"
+			"Powerups can be collected. Consume with 'R'",
+			"When SHIELD is activated, you can hit enemies",
+			"With the REWIND you can go back in time",
+			"Watch out for the falling books!",
+			"In the DOUBLE JUMP zone you can jump again",
+			"Great. You're ready to study",
+			"Watch out for pitfalls and temptations",
+			"Remember to take the high road!",
 		});
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(other.CompareTag("TutorialTrigger")){
-			var speech = speeches.Dequeue();
-			speechText.text = speech;
+			try
+			{
+				var speech = speeches.Dequeue();
+				speechText.text = speech;
+			}
+			catch (UnityException)
+			{
+				Debug.Log("Queue is empty.");
+			}
+
+			other.enabled = false;
 		}
 	}
 }
