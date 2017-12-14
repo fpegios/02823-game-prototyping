@@ -53,6 +53,11 @@ public class SoundManager : MonoBehaviour {
 		musicSource.Play();
 	}
 
+	public void PauseMusic (AudioClip clip) {
+		musicSource.clip = clip;
+		musicSource.Pause();
+	}
+
 	public void StopMusic (AudioClip clip) {
 		musicSource.clip = clip;
 		musicSource.Stop();

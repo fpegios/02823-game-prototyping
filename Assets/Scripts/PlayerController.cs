@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     private Camera tempCamera;
     private bool isDropping;
     private bool onTrampoline;
-    private GameObject GameOverMenu, Pause;
+    private GameObject GameOverMenu, PauseMenu, Pause;
     private float initialYCameraValue;
     private bool firstTime = true;
     public float minimumYPosition;
@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameOverMenu = GameObject.Find("GameOverMenu");
         GameOverMenu.SetActive(false);
+        PauseMenu = GameObject.Find("PauseMenu");
+        PauseMenu.SetActive(false);
         Pause = GameObject.Find("Pause");
         Pause.SetActive(false);
 
@@ -265,6 +267,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(collision.transform.CompareTag("Climb")){
             isGrounded = true;
+            isClimbing = true;
            // if (!isGrounded) {
                 if (OnHitGround != null)
                     OnHitGround ();
@@ -392,14 +395,18 @@ public class PlayerController : MonoBehaviour
         SoundManager.instance.PlayUserSfx_2(groundSound);
     }
 
-    private void ToggleGameState() {
+    public void ToggleGameState() {
         if (gameState == GameState.Play) {
             gameState = GameState.Pause;
+            SoundManager.instance.PauseMusic(gameLevelMusic);
             Pause.SetActive(true);
+            PauseMenu.SetActive(true);
             FreezePlayer();
         } else if (gameState == GameState.Pause){
             gameState = GameState.Play;
+            SoundManager.instance.PlayMusic(gameLevelMusic);
             Pause.SetActive(false);
+            PauseMenu.SetActive(false);
             animator.enabled = true;
             rb.bodyType = RigidbodyType2D.Dynamic;
         }
