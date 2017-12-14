@@ -23,6 +23,7 @@ TagManager:
   - Bubble
   - ExtraLife
   - Goal
+  - TutorialTrigger
   layers:
   - Default
   - TransparentFX

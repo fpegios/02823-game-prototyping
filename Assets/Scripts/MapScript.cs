@@ -106,12 +106,12 @@ public class MapScript : MonoBehaviour {
 
     private void HandleKeyPress()
     {
-		if(Input.GetKey(KeyCode.Space)){
+		if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)){
 			if(!isPlayerMoving)
 				sceneController.FadeAndLoadScene("Scenes/Levels/Level" + StateController.instance.PlayerPositionInMapScene);
 		}
 
-		else if(Input.GetKey(KeyCode.RightArrow)){
+		else if(Input.GetKeyDown(KeyCode.RightArrow)){
 			var reachedLevel = StateController.instance.GetMaxReachedLevel().LevelNo;
 			if(StateController.instance.PlayerPositionInMapScene < reachedLevel){
 				nextLevelNo = StateController.instance.PlayerPositionInMapScene + 1;
@@ -120,7 +120,7 @@ public class MapScript : MonoBehaviour {
 			}
 		}
 
-		else if(Input.GetKey(KeyCode.LeftArrow)){
+		else if(Input.GetKeyDown(KeyCode.LeftArrow)){
 			if(StateController.instance.PlayerPositionInMapScene > 0){
 				nextLevelNo = StateController.instance.PlayerPositionInMapScene - 1;
 				SetNewPositionAndToggleIsPlayerMoving(nextLevelNo);
