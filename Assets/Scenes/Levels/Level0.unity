@@ -4287,7 +4287,7 @@ Prefab:
         type: 2}
       propertyPath: gameLevelMusic
       value: 
-      objectReference: {fileID: 8300000, guid: ea39ffb8e4825441b9e5368d58a1d00e, type: 3}
+      objectReference: {fileID: 8300000, guid: 5eb64e3d61dba49cdbbb320d8479c525, type: 3}
     - target: {fileID: 114876659900154828, guid: 1263c6a3ee359411d9632a55a743527c,
         type: 2}
       propertyPath: mineSound
