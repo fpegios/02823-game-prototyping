@@ -2,14 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOverScript : MonoBehaviour {
 
 	private enum GameOverMenu {Restart, MainMenu};
 	private GameOverMenu currentChoice;
 	private Vector3 indicatorPosition;
-	
 	private Text text;
+	private string mapSceneRelativePath = "Scenes/Other/MapScene";
+	private string levelSceneRelativePath = "Scenes/Levels/";
+	private SceneController sceneController;
+
+	void Awake () {
+		sceneController = FindObjectOfType<SceneController>();
+		if(!sceneController)
+			throw new UnityException("Scene Controller could not be found, ensure that it exists in the Persistent scene.");
+	}
+
 	void Start () {
 		// initiaize current choice to restart
 		currentChoice = GameOverMenu.Restart;
@@ -21,8 +31,21 @@ public class GameOverScript : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space)) {	
 			if (currentChoice == GameOverMenu.Restart) {
 				Debug.Log("RESTART THE LEVEL!");
+
+				// hide the game over menu
+				this.gameObject.SetActive(false);
+
+				// get active scene name and reload it
+				Scene activeScene = SceneManager.GetActiveScene();
+				sceneController.FadeAndLoadScene(levelSceneRelativePath + activeScene.name);
 			} else if (currentChoice == GameOverMenu.MainMenu) {
 				Debug.Log("GO TO MAIN MENU!");
+
+				// hide the game over menu and 
+				this.gameObject.SetActive(false);
+				
+				// load map scene
+				sceneController.FadeAndLoadScene(mapSceneRelativePath);
 			}
         }
 

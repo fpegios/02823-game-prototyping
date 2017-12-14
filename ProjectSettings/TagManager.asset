@@ -16,6 +16,14 @@ TagManager:
   - RockFall
   - EnemyLimit
   - MovingEnemy
+  - Mine
+  - Shield
+  - ShieldGenerator
+  - Rewind
+  - Bubble
+  - ExtraLife
+  - Goal
+  - TutorialTrigger
   layers:
   - Default
   - TransparentFX

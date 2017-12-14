@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapScript : MonoBehaviour {
-	private float playerSpeed = 0.05f;
+	public float playerSpeed = 0.045f;
 	private SceneController sceneController;
 	private bool isPlayerMoving;
 	private int nextLevelNo;
@@ -12,12 +13,20 @@ public class MapScript : MonoBehaviour {
 
 	private Vector3 currentPosition;
 
+	private Text levelName;
+
+	private Text levelDescription;
+
 	#region Awake
 	void Awake()
 	{
         sceneController = FindObjectOfType<SceneController>();
         if(!sceneController)
             throw new UnityException("Scene Controller could not be found, ensure that it exists in the Persistent scene.");
+
+		levelName = GameObject.Find("LevelName").GetComponent<Text>();
+		levelDescription = GameObject.Find("LevelDescription").GetComponent<Text>();
+
 	}
 	#endregion
 
@@ -25,7 +34,18 @@ public class MapScript : MonoBehaviour {
 
 	void Start () {
 		ColorMilestones(StateController.instance.Levels);
-		SetPlayerSpawnPosition();
+		var reachedLevel = GetReachedLevel();
+		SetPlayerSpawnPosition(reachedLevel);
+		UpdateUiText(reachedLevel.LevelNo);
+	}
+
+
+
+    private Level GetReachedLevel(){
+		if(StateController.instance.HasCompletedIntro)
+			return StateController.instance.GetMaxReachedLevel();
+		else
+			return StateController.instance.Levels.Find(x => x.LevelNo == 0);
 	}
 
 	private void ColorMilestones(List<Level> levels)
@@ -45,9 +65,8 @@ public class MapScript : MonoBehaviour {
 		sr.color = color;
 	}
 
-	private void SetPlayerSpawnPosition()
-    {		
-		var reachedLevel = StateController.instance.GetMaxReachedLevel();
+	private void SetPlayerSpawnPosition(Level reachedLevel)
+    {
 		var spawnPosition = GetPlayerSpawnPosition(reachedLevel);
 		GameObject.Find("Player").transform.position = spawnPosition;
 
@@ -87,28 +106,44 @@ public class MapScript : MonoBehaviour {
 
     private void HandleKeyPress()
     {
-		if(Input.GetKey(KeyCode.Space)){
+		if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)){
 			if(!isPlayerMoving)
 				sceneController.FadeAndLoadScene("Scenes/Levels/Level" + StateController.instance.PlayerPositionInMapScene);
 		}
 
-		else if(Input.GetKey(KeyCode.RightArrow)){
+		else if(Input.GetKeyDown(KeyCode.RightArrow)){
 			var reachedLevel = StateController.instance.GetMaxReachedLevel().LevelNo;
 			if(StateController.instance.PlayerPositionInMapScene < reachedLevel){
 				nextLevelNo = StateController.instance.PlayerPositionInMapScene + 1;
 				SetNewPositionAndToggleIsPlayerMoving(nextLevelNo);
+				UpdateUiText(nextLevelNo);
 			}
 		}
 
-		else if(Input.GetKey(KeyCode.LeftArrow)){
-			if(StateController.instance.PlayerPositionInMapScene > 1){
+		else if(Input.GetKeyDown(KeyCode.LeftArrow)){
+			if(StateController.instance.PlayerPositionInMapScene > 0){
 				nextLevelNo = StateController.instance.PlayerPositionInMapScene - 1;
 				SetNewPositionAndToggleIsPlayerMoving(nextLevelNo);
+				UpdateUiText(nextLevelNo);
 			}
 		}    
 	}
 
-	private void SetNewPositionAndToggleIsPlayerMoving(int nextLevelNo){
+    private void UpdateUiText(int levelNo)
+    {
+        switch(levelNo){
+			case 0: levelName.text = "Intro week"; break;
+			case 1: levelName.text = "First year"; break;
+			case 2: levelName.text = "Second year"; break;
+			case 3: levelName.text = "Third year"; break;
+			case 4: levelName.text = "Fourth year"; break;
+			case 5: levelName.text = "Fifth year"; break;
+			case 6: levelName.text = "Congratulations! You graduated!"; break;
+			default: throw new UnityException("No UI text matching level number");
+		}
+    }
+
+    private void SetNewPositionAndToggleIsPlayerMoving(int nextLevelNo){
         destination = GameObject.Find("Level" + this.nextLevelNo).transform.position;
 		isPlayerMoving = true;
 	}
