@@ -22,15 +22,15 @@ public class TutorialScript : MonoBehaviour {
 			"Good. You can also hold SPACE for a longer jump",
 			"Tapping SPACE will let you jump only a little",
 			"Now watch out for enemies!",
-			"Press SPACE on the trampoline to jump even higher",
+			"Hold SPACE on the trampoline to jump even higher",
 			"Powerups can be collected. Consume with 'R'",
 			"When SHIELD is activated, you can hit enemies",
 			"With the REWIND you can go back in time",
 			"Watch out for the falling books!",
 			"In the DOUBLE JUMP zone you can jump again",
-			"Great. You're ready to study",
-			"Watch out for pitfalls and temptations",
-			"Remember to take the high road!",
+			"Great. Looks like you're ready to study",
+			"Watch out for pitfalls and temptations..",
+			"..and remember to take the high road!",
 		});
 	}
 
