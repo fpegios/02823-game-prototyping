@@ -389,7 +389,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4310027051151028, guid: 41e99844c006ed04aaa9dfa1f7b8483b, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -60.008774
+      value: -58.67
       objectReference: {fileID: 0}
     - target: {fileID: 4310027051151028, guid: 41e99844c006ed04aaa9dfa1f7b8483b, type: 2}
       propertyPath: m_LocalPosition.z
@@ -720,6 +720,11 @@ Prefab:
     - target: {fileID: 114974884563046270, guid: e0baafa42e6cb264e992a5668f031d16,
         type: 2}
       propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212624479938519608, guid: e0baafa42e6cb264e992a5668f031d16,
+        type: 2}
+      propertyPath: m_FlipX
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2338,6 +2343,10 @@ Prefab:
       propertyPath: mineSound
       value: 
       objectReference: {fileID: 8300000, guid: 0dcc5a4cf5d49a44d81515a47c305f0b, type: 3}
+    - target: {fileID: 1473389855528334, guid: 1263c6a3ee359411d9632a55a743527c, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1263c6a3ee359411d9632a55a743527c, type: 2}
   m_IsPrefabParent: 0
@@ -3429,7 +3438,18 @@ Prefab:
       propertyPath: fallingRockSound
       value: 
       objectReference: {fileID: 8300000, guid: b60b8247b2539fa46bb9acea1eadcfc6, type: 3}
-    m_RemovedComponents: []
+    - target: {fileID: 50648268545445480, guid: ff3ca5218d7e24264a44b932454e2810,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 60321369423912134, guid: ff3ca5218d7e24264a44b932454e2810,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 60321369423912134, guid: ff3ca5218d7e24264a44b932454e2810, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ff3ca5218d7e24264a44b932454e2810, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2107058887 stripped
@@ -3437,6 +3457,26 @@ Transform:
   m_PrefabParentObject: {fileID: 4568063852899864, guid: ff3ca5218d7e24264a44b932454e2810,
     type: 2}
   m_PrefabInternal: {fileID: 2107058886}
+--- !u!1 &2107058888 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1516976170865244, guid: ff3ca5218d7e24264a44b932454e2810,
+    type: 2}
+  m_PrefabInternal: {fileID: 2107058886}
+--- !u!58 &2107058889
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2107058888}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000052452087, y: -0.046251774}
+  serializedVersion: 2
+  m_Radius: 1.9450021
 --- !u!1001 &2143372361
 Prefab:
   m_ObjectHideFlags: 0
