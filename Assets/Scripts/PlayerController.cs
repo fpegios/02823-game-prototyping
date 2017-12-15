@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded, isDoubleJumpActive;
     private List<PlayerState> storedPlayerStates;
     private string powerUp;
-    private bool isRespawning;
-    private Vector3 respawnPosition;
+    public static bool isRespawning;
+    public static Vector3 respawnPosition;
     private float playerStateSaveCount;
     public enum GameState {Play, Pause, Death, Complete};
     public static GameState gameState;
@@ -285,6 +285,7 @@ public class PlayerController : MonoBehaviour
         else if (collision.transform.CompareTag("Rock"))
         {
             InvokeDeath();
+            collision.gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
         else if (collision.transform.CompareTag("Mine")) {
             InvokeDeath();
