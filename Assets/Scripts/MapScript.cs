@@ -113,7 +113,7 @@ public class MapScript : MonoBehaviour {
 
 		else if(Input.GetKeyDown(KeyCode.RightArrow)){
 			var reachedLevel = StateController.instance.GetMaxReachedLevel().LevelNo;
-			if(StateController.instance.PlayerPositionInMapScene < reachedLevel){
+			if(StateController.instance.PlayerPositionInMapScene < reachedLevel || StateController.instance.IsGameComplete()){
 				nextLevelNo = StateController.instance.PlayerPositionInMapScene + 1;
 				SetNewPositionAndToggleIsPlayerMoving(nextLevelNo);
 				UpdateUiText(nextLevelNo);

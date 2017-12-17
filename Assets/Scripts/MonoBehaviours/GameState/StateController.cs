@@ -45,6 +45,10 @@ public class StateController : MonoBehaviour {
 		return maxReachedLevel;
 	}
 
+	public bool IsGameComplete(){
+		return Levels[Levels.Count - 1].IsComplete;
+	}
+
 	private List<Level> CreateAndPopulateLevelList(){
 		Level level0 = ScriptableObject.CreateInstance<Level>();
 		level0.Init(0, false);
